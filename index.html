@@ -3,1421 +3,479 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RegalRise — 眠れる才能を、主人公へ。</title>
-  <meta name="description" content="RegalRise は大阪発のeスポーツチーム＋ストリーマー育成組織。PLAYER PATH と STREAMER PATH の二つのパスで、才能を主人公に変える。">
-  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
-  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/variables.css">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/nav.css">
+  <title>REGAL RISE — HERO MOVIE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Teko:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ────────────────────────────────────────────
-       HERO
-    ──────────────────────────────────────────── */
-    .hero {
-      position: relative;
-      height: 100vh;
-      min-height: 600px;
-      background:
-        linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, #0A0A0A 100%),
-        url('assets/images/hero_bg.png') center/cover no-repeat,
-        var(--grad-hero-bg);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #000; overflow: hidden;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    /* ─── STAGE ─── */
+    .stage {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
-      display: flex;
-      align-items: center;
     }
 
-    .hero-glow {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(255,30,30,0.18) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .hero-left {
-      position: absolute;
-      left: clamp(20px, 8vw, 120px);
-      top: 50%;
-      transform: translateY(-50%);
-      width: min(55%, 640px);
-      z-index: 10;
-    }
-
-    .hero-eyebrow {
-      font-family: var(--font-display);
-      font-size: 14px;
-      letter-spacing: 0.3em;
-      color: var(--color-text-muted);
-      margin-bottom: 16px;
-    }
-
-    .hero-catch { line-height: 1.1; }
-
-    .hero-catch-white {
-      display: block;
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: var(--text-display-l);
-      color: #FFFFFF;
-    }
-
-    .hero-catch-red {
-      display: block;
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: var(--text-display-l);
-      color: var(--color-red);
-      text-shadow: var(--shadow-text-glow);
-    }
-
-    .hero-divider {
-      margin-top: 32px;
-      width: 48px;
-      height: 1px;
-      background: var(--color-red);
-    }
-
-    .hero-sub-en {
-      margin-top: 24px;
-      font-family: var(--font-impact);
-      font-size: 18px;
-      letter-spacing: 0.05em;
-      color: var(--color-text-secondary);
-    }
-
-    .hero-sub-ja {
-      margin-top: 8px;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--color-text-secondary);
-    }
-
-    .hero-cta-group {
-      margin-top: 48px;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .hero-right {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 45%;
-      height: 100%;
-      z-index: 5;
-    }
-
-    .hero-vert-line {
-      position: absolute;
-      right: 10%;
-      top: 20%;
-      width: 2px;
-      height: 60vh;
-      background: linear-gradient(to bottom, transparent, #FF1E1E 30%, #FF1E1E 70%, transparent);
-      box-shadow: 0 0 30px rgba(255,30,30,0.6);
-    }
-
-    .hero-scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      right: 10%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .hero-scroll-hint span {
-      writing-mode: vertical-rl;
-      font-family: var(--font-display);
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      color: var(--color-text-muted);
-      animation: bounce 2s ease infinite;
-    }
-
-    /* ────────────────────────────────────────────
-       STATS BANNER
-    ──────────────────────────────────────────── */
-    .stats-banner {
-      background: var(--color-black-mid);
-      padding: 60px clamp(20px, 6vw, 80px);
-      border-top: 1px solid var(--color-red-border);
-      border-bottom: 1px solid var(--color-red-border);
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-end;
-      position: relative;
-      z-index: 10;
-    }
-
-    .stats-item { display: flex; flex-direction: column; }
-
-    .stats-item-a {
-      padding-right: 64px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      padding-top: 0;
-    }
-
-    .stats-item-b {
-      padding: 0 64px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      padding-top: 20px;
-    }
-
-    .stats-item-c {
-      padding-left: 64px;
-      padding-top: 12px;
-    }
-
-    .stats-number {
-      font-family: var(--font-impact);
-      font-size: var(--text-stat);
-      line-height: 1;
-    }
-
-    .stats-number-red   { color: var(--color-red); }
-    .stats-number-white { color: #FFFFFF; }
-
-    .stats-unit {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--color-text-secondary);
-      margin-top: 4px;
-    }
-
-    .stats-note {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 13px;
-      color: var(--color-text-secondary);
-      margin-top: 8px;
-    }
-
-    /* ────────────────────────────────────────────
-       DECLARATION
-    ──────────────────────────────────────────── */
-    .declaration {
-      background: var(--color-black);
-      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
-    }
-
-    .declaration-inner {
-      max-width: var(--container-max);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 48px;
-    }
-
-    .declaration-label {
-      font-family: var(--font-display);
-      font-size: 12px;
-      letter-spacing: 0.4em;
-      color: var(--color-red);
-      padding-top: 12px;
-    }
-
-    .declaration-heading {
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: var(--text-h2);
-      color: #FFFFFF;
-      line-height: var(--leading-snug);
-    }
-
-    .declaration-body { margin-top: 32px; }
-
-    .declaration-para {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: var(--color-text-secondary);
-      line-height: var(--leading-normal);
-      margin-bottom: 20px;
-    }
-
-    .declaration-para:last-child { margin-bottom: 0; }
-
-    .declaration-rule {
-      margin-top: 48px;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, var(--color-red) 0%, transparent 60%);
-      border: none;
-    }
-
-    /* ────────────────────────────────────────────
-       GAMES
-    ──────────────────────────────────────────── */
-    .games-section {
-      background: var(--color-black-soft);
-      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
-    }
-
-    .games-inner {
-      max-width: var(--container-max);
-      margin: 0 auto;
-    }
-
-    .games-header {
-      margin-bottom: 56px;
-    }
-
-    .games-title {
-      font-family: var(--font-display);
-      font-size: var(--text-display-l);
-      color: #FFFFFF;
-      line-height: 1;
-    }
-
-    .games-sub {
-      margin-top: 8px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: var(--color-text-muted);
-    }
-
-    /* タイトルリスト：縦積み */
-    .games-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .game-row {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      align-items: center;
-      padding: 28px 0;
-      border-bottom: 1px solid var(--color-border);
-      position: relative;
-      overflow: hidden;
-      cursor: default;
-      transition: padding-left var(--transition-base);
-    }
-
-    .game-row:first-child {
-      border-top: 1px solid var(--color-border);
-    }
-
-    .game-row::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--color-red);
-      transform: scaleY(0);
-      transform-origin: center;
-      transition: transform var(--transition-base);
-    }
-
-    .game-row:hover::before {
-      transform: scaleY(1);
-    }
-
-    .game-row:hover {
-      padding-left: 12px;
-    }
-
-    .game-num {
-      font-family: var(--font-impact);
-      font-size: clamp(48px, 6vw, 80px);
-      line-height: 1;
-      color: rgba(255,30,30,0.15);
-      letter-spacing: 0.02em;
-      user-select: none;
-    }
-
-    .game-info {
-      display: flex;
-      align-items: baseline;
-      gap: 24px;
-      flex-wrap: wrap;
-      position: relative;
-    }
-
-    /* ゲームカラーグロー（右端） */
-    .game-row-valorant { background: linear-gradient(to left, rgba(255,70,84,0.06) 0%, transparent 55%), linear-gradient(to right, var(--color-black-soft) 45%, transparent 100%), url('assets/images/games_valorant.png') right/cover no-repeat; }
-    .game-row-sf6      { background: linear-gradient(to left, rgba(232,161,90,0.06) 0%, transparent 55%), linear-gradient(to right, var(--color-black-soft) 45%, transparent 100%), url('assets/images/games_sf6.png') right/cover no-repeat; }
-    .game-row-fortnite { background: linear-gradient(to left, rgba(100,210,255,0.06) 0%, transparent 55%), linear-gradient(to right, var(--color-black-soft) 45%, transparent 100%), url('assets/images/games_fortnite.png') right/cover no-repeat; }
-    .game-row-r6       { background: linear-gradient(to left, rgba(255,30,30,0.06) 0%, transparent 55%), linear-gradient(to right, var(--color-black-soft) 45%, transparent 100%), url('assets/images/games_apex.png') right/cover no-repeat; }
-
-    .game-name {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 4vw, 48px);
-      color: #FFFFFF;
-      letter-spacing: 0.05em;
-      line-height: 1;
-    }
-
-    .game-genre {
-      font-family: var(--font-display);
-      font-size: 14px;
-      letter-spacing: 0.2em;
-      color: var(--color-text-muted);
-    }
-
-    .game-quote {
-      width: 100%;
-      margin-top: 6px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body);
-      color: var(--color-text-secondary);
-      line-height: 1.5;
-    }
-
-    /* ────────────────────────────────────────────
-       MEMBERS
-    ──────────────────────────────────────────── */
-    .members-section {
-      background: var(--color-black);
-      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
-    }
-
-    .members-inner {
-      max-width: var(--container-max);
-      margin: 0 auto;
-    }
-
-    .members-eyebrow {
-      font-family: var(--font-display);
-      font-size: 12px;
-      letter-spacing: 0.4em;
-      color: var(--color-text-muted);
-      margin-bottom: 16px;
-    }
-
-    .members-title {
-      font-family: var(--font-display);
-      font-size: var(--text-display-l);
-      color: #FFFFFF;
-      line-height: 1;
-      margin-bottom: 12px;
-    }
-
-    .members-desc {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: var(--color-text-secondary);
-      line-height: var(--leading-normal);
-      max-width: 560px;
-      margin-bottom: 40px;
-    }
-
-    .members-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 2px;
-    }
-
-    .member-card {
-      position: relative;
-      overflow: hidden;
-      background: var(--color-black-raise);
-      border: var(--border-card);
-      transition: border-color var(--transition-base),
-                  box-shadow var(--transition-base),
-                  transform var(--transition-slow);
-    }
-
-    .member-card:hover {
-      border-color: var(--color-red-border);
-      box-shadow: var(--shadow-card-red);
-      transform: translateY(-4px);
-    }
-
-    .member-card-large {
-      grid-column: 1;
-      grid-row: 1 / span 2;
-      /* aspect-ratioなし → 小カードの行高さに合わせて自動伸縮 */
-    }
-
-    .member-card-sm {
-      aspect-ratio: 1/1;
-      min-height: 220px;
-    }
-    .member-card-b  { grid-column: 2; grid-row: 1; }
-    .member-card-c  { grid-column: 3; grid-row: 1; }
-    .member-card-d  { grid-column: 2; grid-row: 2; }
-    .member-card-e  { grid-column: 3; grid-row: 2; }
-
-    /* ねこまカード：実画像 */
-    .member-placeholder-nekoma {
-      width: 100%;
-      height: 100%;
-      background:
-        linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.8) 100%),
-        url('assets/images/members/nekoma_icon.jpg') center top/cover no-repeat;
-      min-height: 200px;
-    }
-
-    /* RECRUITプレースホルダー */
-    .member-placeholder-recruit {
-      width: 100%;
-      height: 100%;
-      background:
-        linear-gradient(135deg, #1A1A1A 0%, #111111 50%, #1A0A0A 100%);
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .member-placeholder-recruit-inner {
-      text-align: center;
-      opacity: 0.3;
-    }
-
-    .member-placeholder-recruit-icon {
-      font-family: var(--font-display);
-      font-size: clamp(32px, 5vw, 56px);
-      color: var(--color-red);
-      line-height: 1;
-      display: block;
-    }
-
-    .member-placeholder-recruit-label {
-      font-family: var(--font-display);
-      font-size: 11px;
-      letter-spacing: 0.3em;
-      color: var(--color-text-muted);
-      margin-top: 8px;
-      display: block;
-    }
-
-    .member-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 24px 20px;
-      background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 60%);
-    }
-
-    .member-name {
-      font-family: var(--font-display);
-      font-size: var(--text-display-m);
-      color: #FFFFFF;
-      letter-spacing: 0.05em;
-      line-height: 1;
-    }
-
-    .member-card-sm .member-name {
-      font-size: calc(var(--text-display-m) * 0.65);
-    }
-
-    .member-role {
-      margin-top: 4px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 13px;
-      color: var(--color-red);
-    }
-
-    .member-card-sm .member-role { font-size: 11px; }
-
-    .members-cta {
-      margin-top: 32px;
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 16px;
-      letter-spacing: 0.15em;
-      color: #FFFFFF;
-      transition: color var(--transition-fast);
-    }
-
-    .members-cta:hover { color: var(--color-red); }
-
-    /* ────────────────────────────────────────────
-       TWO PATHS
-    ──────────────────────────────────────────── */
-    .paths-section {
-      background: var(--color-black-mid);
-      border-top: 1px solid var(--color-red-border);
-      border-bottom: 1px solid var(--color-red-border);
-      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
-    }
-
-    .paths-inner {
-      max-width: var(--container-max);
-      margin: 0 auto;
-    }
-
-    .paths-label {
-      font-family: var(--font-display);
-      font-size: 12px;
-      letter-spacing: 0.4em;
-      color: var(--color-red);
-      margin-bottom: 12px;
-    }
-
-    .paths-heading {
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: var(--text-h2);
-      color: #FFFFFF;
-      line-height: var(--leading-snug);
-      margin-bottom: 64px;
-    }
-
-    .path-item {
-      display: flex;
-      gap: 48px;
-      align-items: flex-start;
-      padding-bottom: 64px;
-    }
-
-    .path-item + .path-item {
-      border-top: 1px solid var(--color-border);
-      padding-top: 64px;
-      padding-bottom: 0;
-    }
-
-    .path-deco-letter {
-      font-family: var(--font-impact);
-      font-size: clamp(80px, 10vw, 120px);
-      line-height: 1;
-      color: rgba(255,30,30,0.12);
-      flex-shrink: 0;
-      user-select: none;
-      letter-spacing: -0.02em;
-    }
-
-    .path-content {}
-
-    .path-title-en {
-      font-family: var(--font-display);
-      font-size: var(--text-display-m);
-      color: #FFFFFF;
-      letter-spacing: 0.05em;
-      line-height: 1;
-    }
-
-    .path-title-ja {
-      margin-top: 8px;
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: var(--text-h3);
-      color: #FFFFFF;
-    }
-
-    .path-body {
-      margin-top: 20px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: var(--color-text-secondary);
-      line-height: var(--leading-normal);
-    }
-
-    .path-link {
-      display: inline-block;
-      margin-top: 24px;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--color-red);
-      transition: opacity var(--transition-fast);
-    }
-
-    .path-link:hover { opacity: 0.75; }
-
-    /* ────────────────────────────────────────────
-       TOURNAMENT RECORD
-    ──────────────────────────────────────────── */
-    .results-section {
-      background: var(--color-black);
-      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
-    }
-
-    .results-inner {
-      max-width: var(--container-max);
-      margin: 0 auto;
-    }
-
-    .results-header {
-      display: flex;
-      align-items: baseline;
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .results-title {
-      font-family: var(--font-display);
-      font-size: var(--text-display-m);
-      color: #FFFFFF;
-      line-height: 1;
-    }
-
-    .results-sub {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: var(--color-text-muted);
-    }
-
-    .tournament-list {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .tournament-row {
-      display: grid;
-      grid-template-columns: 140px 1fr 100px;
-      align-items: center;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--color-border);
-      transition: background var(--transition-fast), padding-left var(--transition-base);
-    }
-
-    .tournament-row:hover {
-      background: var(--color-black-raise);
-      padding-left: 16px;
-    }
-
-    /* 最新行（featured） */
-    .tournament-row-featured {
-      background: var(--color-red-glow-soft);
-      border-left: var(--border-left-accent);
-      padding-left: 20px;
-    }
-
-    .tournament-row-featured:hover {
-      background: rgba(255,30,30,0.12);
-      padding-left: 20px;
-    }
-
-    .tournament-date {
-      font-family: var(--font-display);
-      font-size: 14px;
-      letter-spacing: 0.15em;
-      color: var(--color-text-muted);
-    }
-
-    .tournament-name {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: var(--text-body-l);
-      color: #FFFFFF;
-    }
-
-    /* ────────────────────────────────────────────
-       COMMUNITY (セクション)
-    ──────────────────────────────────────────── */
-    .community-section {
-      background: var(--color-black);
-      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .community-inner {
-      max-width: var(--container-max);
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 48px;
-    }
-
-    .community-left {}
-
-    .community-label {
-      font-family: var(--font-display);
-      font-size: 12px;
-      letter-spacing: 0.4em;
-      color: var(--color-text-muted);
-      margin-bottom: 12px;
-    }
-
-    .community-heading {
-      font-family: var(--font-display);
-      font-size: var(--text-display-m);
-      color: #FFFFFF;
-      line-height: 1;
-    }
-
-    .community-body {
-      margin-top: 20px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: var(--color-text-secondary);
-      line-height: var(--leading-normal);
-      max-width: 560px;
-    }
-
-    .community-right {
-      flex-shrink: 0;
-    }
-
-    /* ────────────────────────────────────────────
-       RECRUIT CTA
-    ──────────────────────────────────────────── */
-    .recruit-cta {
-      position: relative;
-      background: var(--color-red);
-      padding: clamp(80px, 12vw, 160px) clamp(20px, 6vw, 80px);
-      overflow: hidden;
-      text-align: center;
-      z-index: 10;
-    }
-
-    .recruit-cta-scanlines {
-      position: absolute;
-      inset: 0;
+    /* ─── NOISE CANVAS ─── */
+    #noise {
+      position: absolute; inset: 0;
+      opacity: 0;
+      animation: noiseAnim 14s linear infinite;
+      pointer-events: none; z-index: 1;
+    }
+    @keyframes noiseAnim {
+      /* 0:00 イントロノイズ */
+      0%          { opacity: .18; }
+      7%          { opacity: .10; }
+      /* 0:01 ザーザーバースト */
+      8.5%        { opacity: .08; }
+      9.5%        { opacity: .95; }
+      11%         { opacity: .95; }
+      12.5%       { opacity: .06; }
+      /* 0:02 ザーザーバースト */
+      18.5%       { opacity: .06; }
+      19.5%       { opacity: .92; }
+      21%         { opacity: .92; }
+      22.5%       { opacity: .05; }
+      /* 0:03 ザーザー → 完全暗転 */
+      28.5%       { opacity: .05; }
+      29.5%       { opacity: .90; }
+      30%         { opacity: 0; }
+      39%         { opacity: 0; }
+      /* 0:04 暗転明けバースト */
+      39.5%       { opacity: .85; }
+      41%         { opacity: .85; }
+      42%         { opacity: .04; }
+      /* 通常期 */
+      59%         { opacity: .04; }
+      /* 0:08 ロゴ前バースト */
+      78.5%       { opacity: .04; }
+      79.5%       { opacity: .78; }
+      81%         { opacity: .78; }
+      82.5%       { opacity: .04; }
+      100%        { opacity: .04; }
+    }
+
+    /* ─── FLASH ─── */
+    .flash {
+      position: absolute; inset: 0; background: #fff;
+      opacity: 0; z-index: 50; pointer-events: none;
+      animation: flashAnim 14s ease infinite;
+    }
+    @keyframes flashAnim {
+      /* 1:00 切替フラッシュ */
+      9%,11%   { opacity: 0; }
+      10%      { opacity: .3; }
+      /* 2:00 切替フラッシュ */
+      19%,21%  { opacity: 0; }
+      20%      { opacity: .25; }
+      /* 3:00 暗転 */
+      29%,41%  { opacity: 0; }
+      30%,40%  { opacity: 0; }
+      /* 8:00 ロゴ前 */
+      79%,81%  { opacity: 0; }
+      80%      { opacity: .15; }
+      100%     { opacity: 0; }
+    }
+
+    /* ─── BLACKOUT (0:03–0:04) ─── */
+    .blackout {
+      position: absolute; inset: 0; background: #000;
+      opacity: 0; z-index: 40; pointer-events: none;
+      animation: blackoutAnim 14s ease infinite;
+    }
+    @keyframes blackoutAnim {
+      0%,29%   { opacity: 0; }
+      30%,40%  { opacity: 1; }
+      41%,100% { opacity: 0; }
+    }
+
+    /* ─── 共通テキスト ─── */
+    .scene-text {
+      position: absolute; text-align: center;
+      color: #fff; pointer-events: none;
+      opacity: 0; z-index: 10;
+    }
+
+    /* ─── 0:00–0:01 NO SKILL ─── */
+    .s-no-skill {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(48px, 10vw, 96px);
+      letter-spacing: .05em;
+      animation: noSkillAnim 14s ease infinite;
+    }
+    @keyframes noSkillAnim {
+      0%          { opacity: 0; transform: scale(1.02); }
+      2%          { opacity: 1; transform: scale(1); }
+      7%          { opacity: 1; transform: scale(1); }
+      10%         { opacity: 0; transform: scale(.98); }
+      100%        { opacity: 0; }
+    }
+
+    /* ─── 0:01–0:02 NO NAME ─── */
+    .s-no-name {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(48px, 10vw, 96px);
+      letter-spacing: .05em;
+      animation: noNameAnim 14s cubic-bezier(.22,1,.36,1) infinite;
+    }
+    @keyframes noNameAnim {
+      0%,9%       { opacity: 0; transform: translateX(120px); }
+      11%         { opacity: 1; transform: translateX(0); }
+      18%         { opacity: 1; transform: translateX(0); }
+      21%         { opacity: 0; transform: translateX(-60px); }
+      100%        { opacity: 0; }
+    }
+
+    /* ─── 0:02–0:03 NO EXPERIENCE + GLITCH ─── */
+    .s-no-exp {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(36px, 7vw, 80px);
+      letter-spacing: .04em;
+      animation: noExpAnim 14s ease infinite;
+    }
+    @keyframes noExpAnim {
+      0%,19%      { opacity: 0; transform: translateX(0) skewX(0deg); }
+      21%         { opacity: 1; transform: translateX(-4px) skewX(-2deg); filter: blur(1px); }
+      22%         { opacity: 1; transform: translateX(4px) skewX(2deg); filter: blur(0); }
+      23%         { opacity: 1; transform: translateX(-2px); }
+      24%         { opacity: 1; transform: translateX(0); }
+      28%         { opacity: 1; }
+      30%         { opacity: 0; }
+      100%        { opacity: 0; }
+    }
+
+    /* グリッチ重ね */
+    .s-no-exp::before, .s-no-exp::after {
+      content: 'NO EXPERIENCE';
+      position: absolute; top: 0; left: 0; right: 0;
+      animation: glitchLayer 14s ease infinite;
+    }
+    .s-no-exp::before {
+      color: #ffffff; clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+      animation-name: glitchBefore;
+    }
+    .s-no-exp::after {
+      color: #ffffff; clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+      animation-name: glitchAfter;
+    }
+    @keyframes glitchBefore {
+      0%,20%    { opacity: 0; transform: translateX(0); }
+      21%       { opacity: 1; transform: translateX(-6px); }
+      23%       { opacity: 1; transform: translateX(4px); }
+      25%       { opacity: 1; transform: translateX(-2px); }
+      29%       { opacity: 0; }
+      100%      { opacity: 0; }
+    }
+    @keyframes glitchAfter {
+      0%,20%    { opacity: 0; transform: translateX(0); }
+      21%       { opacity: 1; transform: translateX(5px); }
+      23%       { opacity: 1; transform: translateX(-3px); }
+      25%       { opacity: 1; transform: translateX(1px); }
+      29%       { opacity: 0; }
+      100%      { opacity: 0; }
+    }
+
+    /* ─── 0:04–0:06 DOESN'T MATTER ─── */
+    .s-doesnt {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 22vw, 280px);
+      color: #fff; letter-spacing: -.02em;
+      line-height: .9;
+      animation: doesntAnim 14s cubic-bezier(.22,1,.36,1) infinite;
+    }
+    @keyframes doesntAnim {
+      0%,39%    { opacity: 0; transform: scale(.85); }
+      41%       { opacity: 1; transform: scale(1.05); }
+      44%       { opacity: 1; transform: scale(1); }
+      57%       { opacity: 1; transform: scale(1.02); }
+      60%       { opacity: 0; transform: scale(1.05); }
+      100%      { opacity: 0; }
+    }
+
+    /* ─── 0:06–0:08 ALL YOU NEED / IS THE COURAGE / TO START ─── */
+    .s-lines {
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(8px, 2vh, 20px);
+    }
+    .s-line {
+      font-family: 'Teko', sans-serif;
+      font-size: clamp(40px, 9vw, 120px);
+      font-weight: 600; color: #fff;
+      letter-spacing: .06em; opacity: 0;
+      transform: translateY(30px);
+    }
+    .s-line-1 { animation: lineAnim 14s ease infinite; animation-delay: 0s; }
+    .s-line-2 { animation: lineAnim 14s ease infinite; animation-delay: .4s; }
+    .s-line-3 { animation: lineAnim 14s ease infinite; animation-delay: .8s; }
+
+    /* ─── "TO START" だけ赤 ─── */
+    .s-line-3 { color: #FF1E1E; }
+
+    @keyframes lineAnim {
+      0%,59%    { opacity: 0; transform: translateY(30px); }
+      62%       { opacity: 1; transform: translateY(0); }
+      77%       { opacity: 1; transform: translateY(0); }
+      80%       { opacity: 0; transform: translateY(-10px); }
+      100%      { opacity: 0; }
+    }
+
+    /* ─── 0:08–0:10 RED LIGHT ─── */
+    .red-light {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, rgba(255,30,30,.4) 0%, transparent 65%);
+      opacity: 0; z-index: 5; pointer-events: none;
+      animation: redLightAnim 14s ease infinite;
+    }
+    @keyframes redLightAnim {
+      0%,78%    { opacity: 0; }
+      82%       { opacity: 1; }
+      90%       { opacity: .8; }
+      97%       { opacity: .6; }
+      100%      { opacity: 0; }
+    }
+
+    /* 走る赤い光線 */
+    .red-streak {
+      position: absolute; left: 0; right: 0; height: 3px; top: -3px;
+      background: linear-gradient(90deg, transparent, #FF1E1E, #fff, #FF1E1E, transparent);
+      opacity: 0; z-index: 6; pointer-events: none;
+      box-shadow: 0 0 16px #FF1E1E;
+      animation: streakAnim 14s ease infinite;
+    }
+    .red-streak:nth-child(2) { animation-delay: .15s; height: 2px; opacity: 0; }
+    @keyframes streakAnim {
+      0%,79%    { opacity: 0; top: -3px; }
+      80%       { opacity: .8; top: 0; }
+      88%       { opacity: .4; top: 100%; }
+      90%,100%  { opacity: 0; }
+    }
+
+    /* ─── 0:08–LOOP ロゴ ─── */
+    .s-logo {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; opacity: 0; z-index: 20;
+      animation: logoAnim 14s cubic-bezier(.22,1,.36,1) infinite;
+    }
+    .s-logo img {
+      height: clamp(60px, 10vw, 100px);
+      filter: invert(1);
+    }
+    .s-logo-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 11vw, 140px);
+      color: #fff; letter-spacing: .08em; line-height: 1;
+    }
+    .s-logo-sub {
+      font-family: 'Teko', sans-serif; font-size: clamp(14px, 2.5vw, 22px);
+      letter-spacing: .35em; color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+    }
+    @keyframes logoAnim {
+      0%,79%    { opacity: 0; transform: scale(.95); }
+      82%       { opacity: 1; transform: scale(1.02); }
+      86%,100%  { opacity: 1; transform: scale(1); }
+    }
+
+    /* ─── SCANLINE OVERLAY ─── */
+    .scanlines {
+      position: absolute; inset: 0;
       background: repeating-linear-gradient(
         0deg,
         transparent,
         transparent 2px,
-        rgba(0,0,0,0.06) 2px,
-        rgba(0,0,0,0.06) 4px
+        rgba(0,0,0,.08) 2px,
+        rgba(0,0,0,.08) 4px
       );
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.06;
+      pointer-events: none; z-index: 100; opacity: .6;
     }
 
-    .recruit-cta-deco {
-      position: absolute;
-      right: -2%;
-      bottom: -10%;
-      font-family: var(--font-display);
-      font-size: 280px;
-      color: rgba(0,0,0,0.08);
-      pointer-events: none;
-      user-select: none;
-      line-height: 1;
-      z-index: 0;
+    /* ─── VIGNETTE ─── */
+    .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,.7) 100%);
+      pointer-events: none; z-index: 8;
     }
 
-    .recruit-cta-inner {
-      position: relative;
-      z-index: 2;
+    /* ─── PROGRESS BAR ─── */
+    .progress {
+      position: fixed; bottom: 0; left: 0;
+      height: 2px; background: #FF1E1E;
+      animation: progressAnim 14s linear infinite;
+      z-index: 200; transform-origin: left;
+    }
+    @keyframes progressAnim {
+      from { width: 0; }
+      to   { width: 100%; }
     }
 
-    .recruit-cta-heading {
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: var(--text-display-l);
-      color: #000000;
-      line-height: 1.1;
+    /* ─── SKIP/REPLAY ─── */
+    .controls {
+      position: fixed; bottom: 20px; right: 20px;
+      font-family: 'Teko', sans-serif; font-size: 14px;
+      letter-spacing: .15em; color: rgba(255,255,255,.3);
+      z-index: 300; cursor: pointer;
+      transition: color .2s;
     }
+    .controls:hover { color: rgba(255,255,255,.8); }
 
-    .recruit-cta-sub {
-      margin-top: 20px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: var(--text-body-l);
-      color: rgba(0,0,0,0.7);
+    /* mobile */
+    @media (max-width: 600px) {
+      .s-doesnt { font-size: clamp(72px, 24vw, 200px); }
     }
-
-    .recruit-cta-buttons {
-      margin-top: 48px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-dark {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #0A0A0A;
-      color: #FFFFFF;
-      border: none;
-      padding: 18px 48px;
-      font-family: var(--font-body);
-      font-weight: 900;
-      font-size: 16px;
-      border-radius: var(--radius-btn);
-      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
-      cursor: pointer;
-      transition: var(--transition-slow);
-      white-space: nowrap;
-      text-decoration: none;
-    }
-
-    .btn-dark:hover {
-      background: #1F1F1F;
-      box-shadow: 0 4px 60px rgba(0,0,0,0.6);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline-dark {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      color: #000000;
-      border: 2px solid rgba(0,0,0,0.4);
-      padding: 16px 32px;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 15px;
-      border-radius: var(--radius-btn);
-      cursor: pointer;
-      transition: var(--transition-base);
-      white-space: nowrap;
-      text-decoration: none;
-    }
-
-    .btn-outline-dark:hover { background: rgba(0,0,0,0.1); }
-
-    /* ────────────────────────────────────────────
-       RESPONSIVE
-    ──────────────────────────────────────────── */
-    @media (max-width: 1199px) {
-      .hero-right { display: none; }
-
-      .hero-left { width: min(70%, 640px); }
-
-      .stats-banner { gap: 32px; }
-
-      .game-row { grid-template-columns: 72px 1fr; }
-
-      .paths-inner .path-item { gap: 24px; }
-
-      .community-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .hero-left {
-        left: clamp(20px, 5vw, 40px);
-        width: calc(100% - 40px);
-      }
-
-      .hero-cta-group { flex-direction: column; gap: 12px; }
-
-      .hero-cta-group .btn-primary,
-      .hero-cta-group .btn-ghost {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .stats-banner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
-      }
-
-      .stats-item {
-        padding: 24px 0 !important;
-        border-right: none !important;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-      }
-
-      .stats-item:last-child { border-bottom: none; }
-
-      .declaration-inner {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
-      .game-row { grid-template-columns: 56px 1fr; }
-
-      .game-num { font-size: 40px; }
-
-      .path-item {
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .path-deco-letter { font-size: 60px; }
-
-      .members-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .member-card-large {
-        grid-column: 1 / span 2;
-        grid-row: auto;
-        aspect-ratio: 16/9;
-      }
-
-      .tournament-row {
-        grid-template-columns: 110px 1fr 80px;
-      }
-
-      .community-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 32px;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-play-state: paused !important; }
     }
   </style>
 </head>
 <body>
 
-<!-- ノイズキャンバス -->
-<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
-<div class="scanlines"></div>
+<div class="stage">
+  <!-- エフェクト層 -->
+  <canvas id="noise"></canvas>
+  <div class="flash"></div>
+  <div class="blackout"></div>
+  <div class="red-light"></div>
+  <div class="red-streak"></div>
+  <div class="red-streak" style="animation-delay:.15s"></div>
+  <div class="vignette"></div>
+  <div class="scanlines"></div>
 
-<!-- ナビゲーション -->
-<nav class="nav">
-  <a href="index.html" class="nav-logo">
-    <img src="assets/logo/regalrise_logo.png" alt="RegalRise" style="filter:invert(1);">
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="nav-link active">HOME</a></li>
-    <li><a href="members.html" class="nav-link">MEMBERS</a></li>
-    <li><a href="#games" class="nav-link">GAMES</a></li>
-    <li><a href="results.html" class="nav-link">RESULTS</a></li>
-    <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
-    <li><a href="community.html" class="nav-link">COMMUNITY</a></li>
-    <li><a href="contact.html" class="nav-link">CONTACT</a></li>
-  </ul>
-  <a href="recruit.html" class="btn-primary nav-cta">チームに参加する</a>
-  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+  <!-- 0:00–0:01 NO SKILL -->
+  <p class="scene-text s-no-skill">NO SKILL</p>
 
-<!-- モバイルメニュー -->
-<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
-  <a href="index.html">HOME</a>
-  <a href="members.html">MEMBERS</a>
-  <a href="#games">GAMES</a>
-  <a href="results.html">RESULTS</a>
-  <a href="recruit.html">RECRUIT</a>
-  <a href="community.html">COMMUNITY</a>
-  <a href="contact.html">CONTACT</a>
-  <a href="recruit.html" class="btn-primary">チームに参加する</a>
-</div>
+  <!-- 0:01–0:02 NO NAME -->
+  <p class="scene-text s-no-name">NO NAME</p>
 
-<!-- ═══════════════════════════════════════════
-  HERO
-═══════════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero-glow"></div>
+  <!-- 0:02–0:03 NO EXPERIENCE -->
+  <p class="scene-text s-no-exp">NO EXPERIENCE</p>
 
-  <!-- 左カラム：テキスト -->
-  <div class="hero-left">
-    <p class="hero-eyebrow">REGALCAST ESPORTS</p>
-    <h1 class="hero-catch">
-      <span class="hero-catch-white glitch-once" style="animation-delay: 0.1s;">眠れる才能を、</span>
-      <span class="hero-catch-red glitch-once" style="animation-delay: 0.3s;">主人公へ。</span>
-    </h1>
-    <div class="hero-divider"></div>
-    <p class="hero-sub-en">PLAYER PATH. STREAMER PATH.</p>
-    <p class="hero-sub-ja">二つのパスで、才能を覚醒させる。</p>
-    <div class="hero-cta-group">
-      <a href="recruit.html" class="btn-primary">RegalRiseに参加する</a>
-      <a href="members.html" class="btn-ghost">チームを見る</a>
-    </div>
+  <!-- 0:04–0:06 DOESN'T MATTER -->
+  <p class="scene-text s-doesnt">DOESN'T<br>MATTER.</p>
+
+  <!-- 0:06–0:08 3行 -->
+  <div class="scene-text s-lines" style="animation: lineWrap 14s ease infinite;">
+    <p class="s-line s-line-1">ALL YOU NEED</p>
+    <p class="s-line s-line-2">IS THE COURAGE</p>
+    <p class="s-line s-line-3">TO START.</p>
   </div>
 
-  <!-- 右カラム：装飾 -->
-  <div class="hero-right">
-    <div class="hero-vert-line"></div>
-    <div class="hero-scroll-hint">
-      <span>SCROLL DOWN</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-  STATS バナー
-═══════════════════════════════════════════ -->
-<div class="stats-banner" aria-label="チーム実績">
-  <div class="stats-item stats-item-a fade-up">
-    <div style="display:flex; align-items:baseline; gap:8px;">
-      <span class="stats-number stats-number-red" data-count="8">8</span>
-      <span class="stats-unit">回</span>
-    </div>
-    <p class="stats-note">止まらなかった</p>
-  </div>
-  <div class="stats-item stats-item-b fade-up delay-1">
-    <div style="display:flex; align-items:baseline; gap:8px;">
-      <span class="stats-number stats-number-white">4</span>
-      <span class="stats-unit">GAMES</span>
-    </div>
-    <p class="stats-note">どこかに、お前の戦場がある</p>
-  </div>
-  <div class="stats-item stats-item-c fade-up delay-2">
-    <div style="display:flex; align-items:baseline; gap:8px;">
-      <span class="stats-number stats-number-white" data-count="7000">7,000</span>
-      <span class="stats-unit">+</span>
-    </div>
-    <p class="stats-note">ねこまが証明した数字</p>
+  <!-- 0:08–LOOP ロゴ -->
+  <div class="scene-text s-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise">
+    <p class="s-logo-title">REGAL RISE</p>
+    <p class="s-logo-sub">Your Journey Starts Here</p>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-  DECLARATION
-═══════════════════════════════════════════ -->
-<section class="declaration" id="declaration" aria-labelledby="declaration-heading">
-  <div class="declaration-inner">
-    <div>
-      <p class="declaration-label">DECLARATION</p>
-    </div>
-    <div>
-      <h2 class="declaration-heading fade-up" id="declaration-heading">俺たちは、才能を主人公に変える。</h2>
-      <div class="declaration-body">
-        <p class="declaration-para fade-up delay-1">
-          ゲームが本気でうまいだけでは、主人公にはなれない。<br>
-          舞台が必要だ。仲間が必要だ。戦い方を知る組織が必要だ。
-        </p>
-        <p class="declaration-para fade-up delay-2">
-          RegalRiseには、二つのパスがある。<br>
-          競技で頂点を狙うPLAYER PATH。<br>
-          配信でファンを作るSTREAMER PATH。<br>
-          どちらを選んでも、俺たちが最後まで伴走する。
-        </p>
-        <p class="declaration-para fade-up delay-3">
-          ランクは関係ない。経験は関係ない。<br>
-          才能を、本気で使いたいか。それだけだ。
-        </p>
-      </div>
-      <hr class="declaration-rule fade-up">
-    </div>
-  </div>
-</section>
+<!-- フェードアウト幕 -->
+<div id="fade-out" style="
+  position:fixed;inset:0;background:#000;
+  opacity:0;pointer-events:none;z-index:9999;
+  transition:opacity .55s ease;
+"></div>
 
-<hr class="energy-line">
+<!-- プログレスバー -->
+<div class="progress"></div>
 
-<!-- ═══════════════════════════════════════════
-  GAMES
-═══════════════════════════════════════════ -->
-<section class="games-section" id="games" aria-labelledby="games-heading">
-  <div class="games-inner">
-    <div class="games-header fade-up">
-      <h2 class="games-title" id="games-heading">GAMES</h2>
-      <p class="games-sub">対応ゲームタイトル</p>
-    </div>
+<!-- SKIP ボタン -->
+<div class="controls" id="skip-btn">SKIP →</div>
 
-    <div class="games-list">
-      <!-- 01 VALORANT -->
-      <div class="game-row game-row-valorant fade-up">
-        <span class="game-num" aria-hidden="true">01</span>
-        <div class="game-info">
-          <span class="game-name">VALORANT</span>
-          <span class="game-genre">Tactical FPS</span>
-          <p class="game-quote">「精密な判断が、勝者を決める。」</p>
-        </div>
-      </div>
-
-      <!-- 02 SF6 -->
-      <div class="game-row game-row-sf6 fade-up delay-1">
-        <span class="game-num" aria-hidden="true">02</span>
-        <div class="game-info">
-          <span class="game-name">SF6</span>
-          <span class="game-genre">Fighting</span>
-          <p class="game-quote">「一対一。言い訳のない世界。」</p>
-        </div>
-      </div>
-
-      <!-- 03 FORTNITE -->
-      <div class="game-row game-row-fortnite fade-up delay-2">
-        <span class="game-num" aria-hidden="true">03</span>
-        <div class="game-info">
-          <span class="game-name">FORTNITE</span>
-          <span class="game-genre">Battle Royale</span>
-          <p class="game-quote">「最後の一人になるまで、走れ。」</p>
-        </div>
-      </div>
-
-      <!-- 04 Apex Legends -->
-      <div class="game-row game-row-r6 fade-up delay-3">
-        <span class="game-num" aria-hidden="true">04</span>
-        <div class="game-info">
-          <span class="game-name">APEX LEGENDS</span>
-          <span class="game-genre">Battle Royale</span>
-          <p class="game-quote">「生き残ったやつが、伝説になる。」</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="energy-line">
-
-<!-- ═══════════════════════════════════════════
-  MEMBERS
-═══════════════════════════════════════════ -->
-<section class="members-section" id="members" aria-labelledby="members-heading">
-  <div class="members-inner">
-    <p class="members-eyebrow fade-up">—— THE ROSTER</p>
-    <h2 class="members-title fade-up delay-1" id="members-heading">MEMBERS</h2>
-    <p class="members-desc fade-up delay-2">
-      チームはまだ小さい。でも、止まる気はない。<br>
-      ねこまを筆頭に、主人公を増やし続ける。
-    </p>
-
-    <!-- 非対称グリッド（2fr 1fr 1fr） -->
-    <div class="members-grid fade-up delay-3">
-      <!-- 大カード（ねこま） -->
-      <div class="member-card member-card-large">
-        <div class="member-placeholder-nekoma"></div>
-        <div class="member-overlay">
-          <p class="member-name">NEKOMA</p>
-          <p class="member-role">SF6 PLAYER</p>
-        </div>
-      </div>
-
-      <!-- あーさー -->
-      <div class="member-card member-card-sm member-card-b" style="background: url('assets/images/members/aasa.jpg') center/cover no-repeat, #0a0a0a;">
-        <div class="member-overlay">
-          <p class="member-name" style="font-size:clamp(18px,3vw,40px);">あーさー</p>
-          <p class="member-role">APEX LEGENDS</p>
-        </div>
-      </div>
-
-      <!-- simple -->
-      <div class="member-card member-card-sm member-card-c" style="background: url('assets/images/members/simple.png') center 15%/contain no-repeat, #1a0e1f;">
-        <div class="member-overlay">
-          <p class="member-name" style="font-size:clamp(18px,3vw,40px);">SIMPLE</p>
-          <p class="member-role">APEX LEGENDS</p>
-        </div>
-      </div>
-
-      <!-- vectorsurge -->
-      <div class="member-card member-card-sm member-card-d" style="background: linear-gradient(135deg, #1a1a1a, #0f0f0f);">
-        <div class="member-overlay">
-          <p class="member-name" style="font-size:clamp(14px,2.2vw,32px);">VECTORSURGE</p>
-          <p class="member-role">APEX LEGENDS</p>
-        </div>
-      </div>
-
-      <!-- RECRUITING -->
-      <div class="member-card member-card-sm member-card-e">
-        <div class="member-placeholder-recruit">
-          <div class="member-placeholder-recruit-inner">
-            <span class="member-placeholder-recruit-icon">+</span>
-            <span class="member-placeholder-recruit-label">RECRUITING</span>
-          </div>
-        </div>
-        <div class="member-overlay">
-          <p class="member-name" style="font-size:clamp(14px,2vw,28px);">???</p>
-          <p class="member-role">PLAYER / RECRUITING</p>
-        </div>
-      </div>
-    </div>
-
-    <a href="members.html" class="members-cta fade-up">全メンバーを見る →</a>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-  TWO PATHS
-═══════════════════════════════════════════ -->
-<section class="paths-section" id="paths" aria-labelledby="paths-heading">
-  <div class="paths-inner">
-    <p class="paths-label fade-up">TWO PATHS</p>
-    <h2 class="paths-heading fade-up delay-1" id="paths-heading">選べ。どちらが、お前の戦い方だ。</h2>
-
-    <!-- PLAYER PATH -->
-    <div class="path-item fade-up delay-2">
-      <span class="path-deco-letter" aria-hidden="true">P</span>
-      <div class="path-content">
-        <p class="path-title-en">PLAYER PATH</p>
-        <h3 class="path-title-ja">競技で頂点を狙う</h3>
-        <p class="path-body">
-          ランクは関係ない。本気で競技がしたいなら、ここに来い。<br>
-          Regal Player Quest が、環境ごと提供する。<br>
-          コーチング、データ分析、施設、ネットワーク。<br>
-          3年後、お前はプロになっている。
-        </p>
-        <a href="recruit.html" class="path-link">Regal Player Quest を見る →</a>
-      </div>
-    </div>
-
-    <!-- STREAMER PATH -->
-    <div class="path-item fade-up delay-1">
-      <span class="path-deco-letter" aria-hidden="true">S</span>
-      <div class="path-content">
-        <p class="path-title-en">STREAMER PATH</p>
-        <h3 class="path-title-ja">配信でファンを作る</h3>
-        <p class="path-body">
-          フォロワーは0でいい。熱量があれば、俺たちが増やす。<br>
-          Regal Quest が、エディター・プロデューサー・マネージャーをつける。<br>
-          10万登録到達後は、完全独立かプロ転向。<br>
-          「We don't own you. We graduate you.」
-        </p>
-        <a href="recruit.html" class="path-link">Regal Quest を見る →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-  TOURNAMENT RECORD
-═══════════════════════════════════════════ -->
-<section class="results-section" id="results" aria-labelledby="results-heading">
-  <div class="results-inner">
-    <div class="results-header fade-up">
-      <h2 class="results-title" id="results-heading">TOURNAMENT RECORD</h2>
-      <span class="results-sub">戦いの記録</span>
-    </div>
-
-    <div class="tournament-list">
-      <!-- 最新行（featured） -->
-      <div class="tournament-row tournament-row-featured fade-up">
-        <span class="tournament-date">2026.05.23</span>
-        <span class="tournament-name">コミュステ杯 vol.1 — Slay the Spire 2</span>
-        <span class="badge-game badge-slayspire">大会</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-1">
-        <span class="tournament-date">2026.04.18</span>
-        <span class="tournament-name">RISE CUP SF6 第2戦</span>
-        <span class="badge-game badge-sf6">SF6</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-1">
-        <span class="tournament-date">2026.03.12</span>
-        <span class="tournament-name">RISE CUP SF6 第1戦</span>
-        <span class="badge-game badge-sf6">SF6</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-1">
-        <span class="tournament-date">2026.02.28</span>
-        <span class="tournament-name">RegalRise VALORANT 月次大会</span>
-        <span class="badge-game badge-valorant">VALORANT</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-2">
-        <span class="tournament-date">2026.01.20</span>
-        <span class="tournament-name">RegalRise VALORANT 月次大会</span>
-        <span class="badge-game badge-valorant">VALORANT</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-2">
-        <span class="tournament-date">2025.12.15</span>
-        <span class="tournament-name">RISE CUP APEX 年末大会</span>
-        <span class="badge-game badge-apex">APEX</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-2">
-        <span class="tournament-date">2025.11.08</span>
-        <span class="tournament-name">RISE CUP APEX 第2戦</span>
-        <span class="badge-game badge-apex">APEX</span>
-      </div>
-
-      <div class="tournament-row fade-up delay-3">
-        <span class="tournament-date">2025.10.01</span>
-        <span class="tournament-name">RISE CUP APEX 第1戦</span>
-        <span class="badge-game badge-apex">APEX</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="energy-line">
-
-<!-- ═══════════════════════════════════════════
-  COMMUNITY (セクション)
-═══════════════════════════════════════════ -->
-<section class="community-section" id="community" aria-labelledby="community-heading">
-  <div class="community-inner">
-    <div class="community-left fade-up">
-      <p class="community-label">COMMUNITY</p>
-      <h2 class="community-heading" id="community-heading">COMMUNITY</h2>
-      <p class="community-body">
-        コミュステは、RegalRiseのコミュニティ部門だ。<br>
-        誰でも参加できるDiscordサーバー。大会を主催し、プレイヤーをつなぐ。
-      </p>
-    </div>
-    <div class="community-right fade-up delay-1">
-      <a href="community.html" class="btn-ghost">コミュステに入る →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-  RECRUIT CTA
-═══════════════════════════════════════════ -->
-<section class="recruit-cta" id="recruit" aria-labelledby="recruit-cta-heading">
-  <div class="recruit-cta-scanlines"></div>
-  <div class="recruit-cta-deco" aria-hidden="true">RISE</div>
-
-  <div class="recruit-cta-inner">
-    <h2 class="recruit-cta-heading fade-up" id="recruit-cta-heading">才能を持ってこい。</h2>
-    <p class="recruit-cta-sub fade-up delay-1">
-      プレイヤーでも、ストリーマーでも。本気なら、俺たちが全部用意する。
-    </p>
-    <div class="recruit-cta-buttons fade-up delay-2">
-      <a href="recruit.html" class="btn-dark">応募する</a>
-      <a href="recruit.html#detail" class="btn-outline-dark">詳細を見る</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise" style="filter:invert(1);">
-        <p class="footer-tagline">眠れる才能を、主人公へ。</p>
-        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
-      </div>
-      <div class="footer-links">
-        <p class="footer-nav-label">LINKS</p>
-        <a href="index.html">HOME</a>
-        <a href="members.html">MEMBERS</a>
-        <a href="#games">GAMES</a>
-        <a href="results.html">RESULTS</a>
-        <a href="recruit.html">RECRUIT</a>
-        <a href="community.html">COMMUNITY</a>
-        <a href="contact.html">CONTACT</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
-      <a href="#">プライバシーポリシー</a>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/js/noise.js"></script>
-<script src="assets/js/scroll-anim.js"></script>
-<script>
-  // hero着地時のnoiseBurst
-  window.addEventListener('DOMContentLoaded', function () {
-    if (window.noiseBurst) window.noiseBurst(500);
-  });
-
-  // ハンバーガーメニュー
-  const hamburger = document.querySelector('.nav-hamburger');
-  const mobileMenu = document.querySelector('.nav-mobile-menu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', function () {
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', String(isOpen));
-    });
-    // メニュー内のリンクをタップしたら閉じる
-    mobileMenu.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() {
-        mobileMenu.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
-    });
-    // メニュー外タップで閉じる
-    document.addEventListener('click', function(e) {
-      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-        mobileMenu.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      }
-    });
+<style>
+  @keyframes lineWrap {
+    0%,59%  { opacity: 0; pointer-events: none; }
+    60%     { opacity: 1; }
+    79%     { opacity: 1; }
+    81%     { opacity: 0; }
+    100%    { opacity: 0; }
   }
+</style>
+
+<script>
+  const canvas = document.getElementById('noise');
+  const ctx = canvas.getContext('2d');
+  let burstMode = false;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function drawNoise() {
+    const W = canvas.width, H = canvas.height;
+    const img = ctx.createImageData(W, H);
+    const d = img.data;
+    if (burstMode) {
+      // テレビ砂嵐：RGB 独立ランダム、高 alpha
+      for (let i = 0; i < d.length; i += 4) {
+        d[i]   = Math.random() * 255;
+        d[i+1] = Math.random() * 255;
+        d[i+2] = Math.random() * 255;
+        d[i+3] = 180 + Math.random() * 75;
+      }
+    } else {
+      // 通常モノクロノイズ
+      for (let i = 0; i < d.length; i += 4) {
+        const v = Math.random() > .5 ? 255 : 0;
+        d[i] = d[i+1] = d[i+2] = v;
+        d[i+3] = Math.random() * 55;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+
+  // シーン切り替わりタイミング（ms）に合わせてバーストを打つ
+  const LOOP_MS   = 14000;
+  const BURST_MS  = [1330, 2730, 4130, 5530, 11130]; // 各切替 70ms 前（14s換算）
+  const BURST_DUR = 700;
+
+  function triggerBurst() {
+    burstMode = true;
+    setTimeout(() => { burstMode = false; }, BURST_DUR);
+  }
+
+  const pageLoad = performance.now();
+
+  function scheduleBurst(targetMs) {
+    const elapsed = (performance.now() - pageLoad) % LOOP_MS;
+    let delay = targetMs - elapsed;
+    if (delay < 0) delay += LOOP_MS;
+    setTimeout(() => {
+      triggerBurst();
+      setTimeout(() => scheduleBurst(targetMs), LOOP_MS);
+    }, delay);
+  }
+
+  BURST_MS.forEach(t => scheduleBurst(t));
+
+  function noiseLoop() {
+    drawNoise();
+    setTimeout(noiseLoop, burstMode ? 28 : 45);
+  }
+  noiseLoop();
+
+  // ── 遷移先 HP ──
+  const HP_URL = './home.html';
+
+  function goToHP() {
+    const fade = document.getElementById('fade-out');
+    fade.style.pointerEvents = 'all';
+    fade.style.opacity = '1';
+    setTimeout(() => { window.location.href = HP_URL; }, 600);
+  }
+
+  // ロゴが安定した12.8秒で遷移開始（14秒ループが戻る前に黒にする）
+  setTimeout(goToHP, 12800);
+
+  // SKIP ボタン
+  document.getElementById('skip-btn').addEventListener('click', goToHP);
 </script>
 </body>
 </html>
