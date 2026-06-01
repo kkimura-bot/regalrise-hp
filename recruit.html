@@ -1229,26 +1229,33 @@
   });
 
   // ハンバーガーメニュー
-  const hamburger = document.querySelector('.nav-hamburger');
-  const mobileMenu = document.querySelector('.nav-mobile-menu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', function () {
-      const isOpen = mobileMenu.classList.toggle('open');
+  (function() {
+    var hamburger = document.querySelector('.nav-hamburger');
+    var mobileMenu = document.querySelector('.nav-mobile-menu');
+    if (!hamburger || !mobileMenu) return;
+
+    hamburger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = mobileMenu.classList.toggle('open');
       hamburger.setAttribute('aria-expanded', String(isOpen));
     });
+
     mobileMenu.querySelectorAll('a').forEach(function(link) {
       link.addEventListener('click', function() {
         mobileMenu.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
       });
     });
+
     document.addEventListener('click', function(e) {
-      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+      if (mobileMenu.classList.contains('open') &&
+          !hamburger.contains(e.target) &&
+          !mobileMenu.contains(e.target)) {
         mobileMenu.classList.remove('open');
         hamburger.setAttribute('aria-expanded', 'false');
       }
     });
-  }
+  })();
 
   // パスタブ切り替え
   const tabs = document.querySelectorAll('.path-tab');

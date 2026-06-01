@@ -134,10 +134,12 @@
 
 /* ─── モバイルメニュー ─── */
 .nav-mobile-menu {
+  display: none;
   position: fixed;
   top: 56px;
   left: 0;
   right: 0;
+  width: 100%;
   background: rgba(10,10,10,0.98);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -146,20 +148,11 @@
   z-index: 190;
   flex-direction: column;
   gap: 0;
-  /* アニメーション用 */
-  display: flex;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px);
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-  pointer-events: none;
+  box-sizing: border-box;
 }
 
 .nav-mobile-menu.open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
+  display: flex;
 }
 
 .nav-mobile-menu a {
