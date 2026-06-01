@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMBASSADOR — RegalRise アンバサダー募集</title>
+  <meta name="description" content="コミュニティの顔に、なれ。スキル不問。でも本気の人間だけが、この場所を変えられる。RegalRise アンバサダー制度。">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <style>
+    /* ── HERO ── */
+    .ambassador-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.7) 100%),
+        url('assets/images/ambassador_hero.png') center/cover no-repeat,
+        #0A0A0A;
+      overflow: hidden;
+    }
+
+    .ambassador-hero-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 100% 70% at 50% 80%, rgba(255,30,30,0.45) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambassador-hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+      width: min(90%, 900px);
+    }
+
+    .hero-main-line1 {
+      font-family: var(--font-display);
+      font-size: var(--text-display-xl);
+      color: #FFFFFF;
+      letter-spacing: 0.05em;
+      line-height: 0.9;
+    }
+
+    .hero-main-line2 {
+      font-family: var(--font-display);
+      font-size: calc(var(--text-display-xl) * 0.75);
+      color: var(--color-red);
+      text-shadow: var(--shadow-text-glow);
+      letter-spacing: 0.05em;
+      line-height: 0.9;
+    }
+
+    .hero-ja-sub {
+      margin-top: 32px;
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .hero-red-rule {
+      margin: 24px auto 0;
+      width: 80px;
+      height: 2px;
+      background: var(--color-red);
+      box-shadow: 0 0 12px rgba(255,30,30,0.6);
+    }
+
+    .hero-sub-copy {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+    }
+
+    /* ── WHAT IS ── */
+    .whatis-section {
+      background: var(--color-black-soft);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .whatis-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 64px;
+      align-items: flex-start;
+    }
+
+    .whatis-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.5em;
+      color: var(--color-red);
+      margin-bottom: 20px;
+    }
+
+    .whatis-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .whatis-body {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ── ROLES ── */
+    .roles-section {
+      background: var(--color-black);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .roles-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .roles-title {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 64px;
+    }
+
+    /* 縦3シーン */
+    .role-scene {
+      position: relative;
+      padding: 48px 0 48px clamp(32px, 6vw, 80px);
+      border-left: var(--border-left-accent);
+      margin-bottom: 48px;
+      overflow: visible;
+    }
+
+    .role-scene:last-child {
+      margin-bottom: 0;
+    }
+
+    /* シーン2（特典）の左ラインをgoldに */
+    .role-scene-benefits {
+      border-left: 3px solid var(--color-gold);
+    }
+
+    .role-scene-number {
+      position: absolute;
+      left: -20px;
+      top: 0;
+      font-family: var(--font-impact);
+      font-size: 80px;
+      color: rgba(255,30,30,0.10);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .role-scene-benefits .role-scene-number {
+      color: rgba(232,161,90,0.10);
+    }
+
+    .role-title {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      position: relative;
+      z-index: 1;
+    }
+
+    .role-en {
+      margin-top: 4px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--color-text-muted);
+    }
+
+    .role-body {
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+      max-width: 560px;
+    }
+
+    /* ── BENEFITS ── */
+    .benefits-section {
+      background: var(--color-black-soft);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .benefits-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .benefits-title {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: var(--color-red);
+      line-height: 1;
+      margin-bottom: 48px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .benefit-item:last-child {
+      border-bottom: none;
+    }
+
+    .benefit-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-badge);
+      background: var(--color-red-glow-soft);
+      border: 1px solid var(--color-red-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--color-red);
+    }
+
+    .benefit-content {}
+
+    .benefit-title {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .benefit-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ── IDEAL ── */
+    .ideal-section {
+      background: var(--color-black);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .ideal-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: flex-start;
+    }
+
+    .ideal-left {}
+
+    .ideal-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .ideal-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .ideal-list {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .ideal-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--color-border);
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-snug);
+    }
+
+    .ideal-item:last-child {
+      border-bottom: none;
+    }
+
+    .ideal-item::before {
+      content: '—';
+      color: var(--color-red);
+      font-family: var(--font-body);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* 応募フロー */
+    .apply-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .apply-flow-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      margin-bottom: 24px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .flow-step:last-child {
+      border-bottom: none;
+    }
+
+    .flow-step-num {
+      font-family: var(--font-impact);
+      font-size: 32px;
+      color: var(--color-red);
+      opacity: 0.6;
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 36px;
+    }
+
+    .flow-step-text {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      padding-top: 4px;
+    }
+
+    /* ── APPLY CTA ── */
+    .apply-cta {
+      position: relative;
+      background: var(--color-black);
+      padding: clamp(100px, 16vw, 200px) clamp(20px, 6vw, 80px);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .apply-cta-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,30,30,0.25) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .apply-cta-deco {
+      position: absolute;
+      bottom: -8%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 360px;
+      color: rgba(255,255,255,0.025);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      line-height: 1;
+      z-index: 0;
+    }
+
+    .apply-cta-inner {
+      position: relative;
+      z-index: 10;
+    }
+
+    .apply-cta-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .apply-cta-body {
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .apply-cta-hint {
+      margin-bottom: 12px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+
+    .btn-apply {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-red);
+      color: #FFFFFF;
+      border: none;
+      padding: 22px 72px;
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: 18px;
+      border-radius: var(--radius-btn);
+      box-shadow: var(--shadow-btn-red), 0 4px 40px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: var(--transition-slow);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-apply:hover {
+      background: #CC1818;
+      box-shadow: 0 0 40px rgba(255,30,30,0.5), 0 4px 40px rgba(0,0,0,0.5);
+      transform: translateY(-2px);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1199px) {
+      .whatis-inner {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .ideal-inner {
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .ambassador-hero-text {
+        width: 90%;
+      }
+
+      .role-scene {
+        padding: 36px 0 36px clamp(24px, 5vw, 48px);
+      }
+
+      .role-scene-number {
+        display: none;
+      }
+
+      .btn-apply {
+        padding: 18px 40px;
+        font-size: 16px;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ノイズキャンバス -->
+<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
+<div class="scanlines"></div>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">HOME</a></li>
+    <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+    <li><a href="community.html" class="nav-link">COMMUNITY</a></li>
+    <li><a href="results.html" class="nav-link">RESULTS</a></li>
+  </ul>
+  <a href="community.html" class="btn-primary nav-cta">コミュステに参加する</a>
+  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
+  <a href="index.html">HOME</a>
+  <a href="members.html">MEMBERS</a>
+  <a href="community.html">COMMUNITY</a>
+  <a href="results.html">RESULTS</a>
+  <a href="ambassador.html">AMBASSADOR</a>
+  <a href="community.html" class="btn-primary">コミュステに参加する</a>
+</div>
+
+<!-- HERO -->
+<section class="ambassador-hero" aria-labelledby="amb-hero-heading">
+  <div class="ambassador-hero-glow"></div>
+  <div class="ambassador-hero-text">
+    <h1 id="amb-hero-heading">
+      <span class="hero-main-line1 glitch-once" style="animation-delay: 0.1s; display:block;">BECOME THE FACE</span>
+      <span class="hero-main-line2 glitch-once" style="animation-delay: 0.4s; display:block;">OF THE COMMUNITY.</span>
+    </h1>
+    <p class="hero-ja-sub">コミュニティの顔に、なれ。</p>
+    <div class="hero-red-rule"></div>
+    <p class="hero-sub-copy">スキル不問。でも本気の人間だけが、この場所を変えられる。</p>
+  </div>
+</section>
+
+<!-- WHAT IS -->
+<section class="whatis-section" aria-labelledby="whatis-heading">
+  <div class="whatis-inner">
+    <div>
+      <p class="whatis-label fade-up">AMBASSADOR</p>
+      <h2 class="whatis-heading fade-up delay-1" id="whatis-heading">担当ゲームの「場」を<br>作る人間になれ。</h2>
+      <div class="whatis-body fade-up delay-2">
+        <p>
+          アンバサダーは、コミュステの各ゲームを担当する"場作りの主役"だ。<br>
+          大会を動かすのは運営チームだが、コミュニティに温度を作るのはアンバサダーの仕事だ。
+        </p>
+        <p style="margin-top: 16px;">
+          新しいプレイヤーが「ここは居心地がいい」と感じる場所を、お前の手で作れ。
+        </p>
+      </div>
+    </div>
+    <!-- 右側は空気として使う -->
+    <div></div>
+  </div>
+</section>
+
+<hr class="energy-line">
+
+<!-- ROLES（3シーン縦並び） -->
+<section class="roles-section" aria-labelledby="roles-heading">
+  <div class="roles-inner">
+    <h2 class="roles-title fade-up" id="roles-heading">ROLES</h2>
+
+    <!-- シーン1：場作り -->
+    <div class="role-scene fade-up">
+      <span class="role-scene-number">01</span>
+      <h3 class="role-title">舞台の空気を、作れ。</h3>
+      <p class="role-en">COMMUNITY BUILDER</p>
+      <p class="role-body">
+        担当ゲームのチャンネルを動かし、コミュニティに熱量を生む。<br>
+        チャットひとつ、声かけひとつが、場の温度を変える。<br>
+        それがアンバサダーの仕事の核心だ。
+      </p>
+    </div>
+
+    <!-- シーン2：交流促進 -->
+    <div class="role-scene fade-up">
+      <span class="role-scene-number">02</span>
+      <h3 class="role-title">つなぐ。それが力だ。</h3>
+      <p class="role-en">CONNECTION MAKER</p>
+      <p class="role-body">
+        初めて来た人間が迷子にならないように。<br>
+        ベテランと新参者が自然に話せるように。<br>
+        人と人をつなぐことが、コミュニティを強くする。
+      </p>
+    </div>
+
+    <!-- シーン3：新規歓迎 -->
+    <div class="role-scene fade-up">
+      <span class="role-scene-number">03</span>
+      <h3 class="role-title">最初の一声が、全部を決める。</h3>
+      <p class="role-en">WELCOME CHAMPION</p>
+      <p class="role-body">
+        新しいメンバーへの最初の声かけが、その人の居場所を決める。<br>
+        「来てよかった」と思わせるのは、制度じゃなくて人間だ。<br>
+        お前の一声が、誰かの始まりになる。
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="energy-line">
+
+<!-- BENEFITS（特典） -->
+<section class="benefits-section" aria-labelledby="benefits-heading">
+  <div class="benefits-inner">
+    <h2 class="benefits-title fade-up" id="benefits-heading">BENEFITS</h2>
+
+    <div class="benefit-item fade-up delay-1">
+      <div class="benefit-icon">01</div>
+      <div class="benefit-content">
+        <h3 class="benefit-title">専用ロール</h3>
+        <p class="benefit-body">
+          コミュステ内で「アンバサダー」ロールが付与される。<br>
+          それはただのバッジじゃない。この場所での影響力だ。
+        </p>
+      </div>
+    </div>
+
+    <div class="benefit-item fade-up delay-2">
+      <div class="benefit-icon">02</div>
+      <div class="benefit-content">
+        <h3 class="benefit-title">企画権限</h3>
+        <p class="benefit-body">
+          大会・イベントの企画を、自分の手で動かせる。<br>
+          「やってみたい」を「やった」に変える権限を持つ。
+        </p>
+      </div>
+    </div>
+
+    <div class="benefit-item fade-up delay-3">
+      <div class="benefit-icon">03</div>
+      <div class="benefit-content">
+        <h3 class="benefit-title">RegalRise 参加機会</h3>
+        <p class="benefit-body">
+          実績が積み上がれば、RegalRiseチームへの参加機会が生まれる。<br>
+          コミュニティから、チームへ。その道は本物だ。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="energy-line">
+
+<!-- IDEAL + APPLY FLOW -->
+<section class="ideal-section" aria-labelledby="ideal-heading">
+  <div class="ideal-inner">
+    <div class="ideal-left">
+      <p class="ideal-label fade-up">IDEAL PERSON</p>
+      <h2 class="ideal-heading fade-up delay-1" id="ideal-heading">こんな人間を<br>待っている。</h2>
+      <ul class="ideal-list fade-up delay-2" aria-label="こんな人に来てほしい">
+        <li class="ideal-item">ゲームが好きで、その熱量を誰かと分かち合いたいと思っている人間</li>
+        <li class="ideal-item">「もっとこのコミュニティをよくしたい」という気持ちがある人間</li>
+        <li class="ideal-item">自分から声をかけることを、面倒だと思わない人間</li>
+        <li class="ideal-item">スキルより、場の空気を大事にできる人間</li>
+      </ul>
+    </div>
+
+    <div class="fade-up delay-2">
+      <p class="apply-flow-label">HOW TO APPLY</p>
+      <div class="apply-flow">
+        <div class="flow-step">
+          <span class="flow-step-num">1</span>
+          <span class="flow-step-text">コミュステ Discordに参加</span>
+        </div>
+        <div class="flow-step">
+          <span class="flow-step-num">2</span>
+          <span class="flow-step-text">アンバサダー応募フォームに記入</span>
+        </div>
+        <div class="flow-step">
+          <span class="flow-step-num">3</span>
+          <span class="flow-step-text">担当チームから連絡が来る</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY CTA -->
+<section class="apply-cta" aria-labelledby="apply-cta-heading">
+  <div class="apply-cta-glow"></div>
+  <div class="apply-cta-deco" aria-hidden="true">RISE</div>
+
+  <div class="apply-cta-inner">
+    <h2 class="apply-cta-heading fade-up" id="apply-cta-heading">覚悟が決まったなら、ここだ。</h2>
+    <p class="apply-cta-body fade-up delay-1">コミュニティを変える人間に、なれるかもしれない。</p>
+
+    <div style="margin-top: 56px;" class="fade-up delay-2">
+      <p class="apply-cta-hint">迷ってるなら、来い。完璧な志望動機は要らない。</p>
+      <a href="community.html" class="btn-apply">アンバサダーに応募する</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise">
+        <p class="footer-tagline">人生はゲーム、主人公になれ。</p>
+        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-nav-label">LINKS</p>
+        <a href="index.html">HOME</a>
+        <a href="community.html">COMMUNITY</a>
+        <a href="members.html">MEMBERS</a>
+        <a href="results.html">RESULTS</a>
+        <a href="ambassador.html">AMBASSADOR</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/noise.js"></script>
+<script src="assets/js/scroll-anim.js"></script>
+<script>
+  // ハンバーガーメニュー
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
+</body>
+</html>

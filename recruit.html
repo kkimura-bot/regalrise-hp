@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RECRUIT — RegalRise</title>
+  <meta name="description" content="プレイヤーパスもストリーマーパスも、ランク・経験不問。才能を本気で使いたいなら、RegalRiseに来い。">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <style>
+    /* ────────────────────────────────────────────
+       RECRUIT HERO
+    ──────────────────────────────────────────── */
+    .recruit-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 60%, rgba(255,30,30,0.45) 0%, transparent 65%),
+        linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.75) 100%),
+        url('assets/images/recruit_bg.png') center/cover no-repeat,
+        #0A0A0A;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .recruit-hero-inner {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      padding: 0 clamp(20px, 6vw, 80px);
+    }
+
+    .recruit-hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 0.5em;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .recruit-hero-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-display-l);
+      color: #FFFFFF;
+      line-height: 1.05;
+    }
+
+    .recruit-hero-heading span {
+      color: var(--color-red);
+      text-shadow: var(--shadow-text-glow);
+    }
+
+    .recruit-hero-paths {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .recruit-hero-path-badge {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 28px);
+      letter-spacing: 0.1em;
+      color: var(--color-text-secondary);
+      padding: 8px 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-card);
+    }
+
+    .recruit-hero-path-badge.active {
+      color: #FFFFFF;
+      border-color: var(--color-red-border);
+      background: var(--color-red-glow-soft);
+    }
+
+    .recruit-hero-sub {
+      margin-top: 32px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ────────────────────────────────────────────
+       PATH SELECTOR (タブ)
+    ──────────────────────────────────────────── */
+    .path-selector {
+      background: var(--color-black-mid);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 64px;
+      z-index: 50;
+    }
+
+    .path-selector-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 clamp(20px, 6vw, 80px);
+      display: flex;
+      gap: 0;
+    }
+
+    .path-tab {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      padding: 20px 40px 18px;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: color var(--transition-fast), border-color var(--transition-fast);
+      white-space: nowrap;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+
+    .path-tab:hover {
+      color: var(--color-text-secondary);
+    }
+
+    .path-tab.active {
+      color: #FFFFFF;
+      border-bottom-color: var(--color-red);
+    }
+
+    /* ────────────────────────────────────────────
+       PATH CONTENT（共通）
+    ──────────────────────────────────────────── */
+    .path-content-block {
+      display: none;
+    }
+
+    .path-content-block.active {
+      display: block;
+    }
+
+    /* ────────────────────────────────────────────
+       PATH INTRO
+    ──────────────────────────────────────────── */
+    .path-intro {
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .path-intro.player-path {
+      background: var(--color-black);
+    }
+
+    .path-intro.streamer-path {
+      background: var(--color-black-soft);
+    }
+
+    .path-intro-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .path-intro-left {}
+
+    .path-intro-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      margin-bottom: 16px;
+    }
+
+    .path-intro-title {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: 0.03em;
+    }
+
+    .path-intro-subtitle {
+      margin-top: 12px;
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .path-intro-body {
+      margin-top: 28px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .path-intro-quote {
+      margin-top: 32px;
+      padding: 20px 24px;
+      border-left: var(--border-left-accent);
+      background: var(--color-red-glow-soft);
+    }
+
+    .path-intro-quote-text {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    /* ────────────────────────────────────────────
+       ENVIRONMENT LIST（環境投資の中身）
+    ──────────────────────────────────────────── */
+    .env-list-section {
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .env-list-section.player-path {
+      background: var(--color-black-soft);
+    }
+
+    .env-list-section.streamer-path {
+      background: var(--color-black);
+    }
+
+    .env-list-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .env-list-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+    }
+
+    .env-list-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      margin-bottom: 48px;
+      line-height: var(--leading-snug);
+    }
+
+    .env-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .env-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--color-border);
+      transition: padding-left var(--transition-base), background var(--transition-base);
+    }
+    .env-item:last-child { border-bottom: none; }
+    .env-item:hover { padding-left: 12px; background: var(--color-black-raise); }
+
+    .env-item:hover {
+      border-color: var(--color-red-border);
+      background: var(--color-black-soft);
+    }
+
+    .env-item-num {
+      font-family: var(--font-impact);
+      font-size: 48px;
+      color: rgba(255,30,30,0.20);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 56px;
+      padding-top: 4px;
+    }
+
+    .env-item-content {
+      flex: 1;
+    }
+
+    .env-item-title {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .env-item-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ────────────────────────────────────────────
+       EDUCATION PROGRAM（育成プログラム）
+    ──────────────────────────────────────────── */
+    .education-section {
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .education-section.player-path {
+      background: var(--color-black);
+    }
+
+    .education-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .education-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .education-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+      margin-bottom: 12px;
+    }
+
+    .education-sub {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+      max-width: 600px;
+      margin-bottom: 56px;
+    }
+
+    .education-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .education-item {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      padding: 48px 0 48px clamp(32px, 6vw, 80px);
+      border-left: var(--border-left-accent);
+      margin-bottom: 48px;
+    }
+
+    .education-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .education-item-num {
+      position: absolute;
+      left: -20px;
+      top: 0;
+      font-family: var(--font-impact);
+      font-size: 80px;
+      color: rgba(255,30,30,0.12);
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .education-item-content { flex: 1; }
+
+    .education-item-en {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .education-item-title {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      margin-bottom: 16px;
+    }
+
+    .education-item-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ────────────────────────────────────────────
+       GRADUATION (卒業後の選択肢)
+    ──────────────────────────────────────────── */
+    .graduation-section {
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .graduation-section.player-path { background: var(--color-black); }
+    .graduation-section.streamer-path { background: var(--color-black-soft); }
+
+    .graduation-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .graduation-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .graduation-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      margin-bottom: 48px;
+      line-height: var(--leading-snug);
+    }
+
+    .graduation-paths {
+      display: flex;
+      gap: 0;
+    }
+
+    .graduation-path {
+      flex: 1;
+      padding: 40px;
+      border: var(--border-card);
+    }
+
+    .graduation-path:first-child {
+      border-right: none;
+    }
+
+    .graduation-path-num {
+      font-family: var(--font-impact);
+      font-size: 56px;
+      color: var(--color-red);
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .graduation-path-title {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      margin-bottom: 12px;
+    }
+
+    .graduation-path-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ────────────────────────────────────────────
+       CONDITIONS (応募条件)
+    ──────────────────────────────────────────── */
+    .conditions-section {
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-red-border);
+    }
+
+    .conditions-section.player-path { background: var(--color-black-soft); }
+    .conditions-section.streamer-path { background: var(--color-black); }
+
+    .conditions-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .conditions-left {}
+
+    .conditions-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      margin-bottom: 16px;
+    }
+
+    .conditions-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+      margin-bottom: 32px;
+    }
+
+    .conditions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .conditions-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .conditions-item-check {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--color-red-border);
+      background: var(--color-red-glow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      border-radius: var(--radius-badge);
+    }
+
+    .conditions-item-check span {
+      font-family: var(--font-display);
+      font-size: 12px;
+      color: var(--color-red);
+      line-height: 1;
+    }
+
+    .conditions-item-text {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .conditions-right {}
+
+    .conditions-note {
+      padding: 32px;
+      background: var(--color-black-raise);
+      border: var(--border-card);
+      border-left: var(--border-left-accent);
+    }
+
+    .conditions-note-title {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: #FFFFFF;
+      margin-bottom: 16px;
+    }
+
+    .conditions-note-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ────────────────────────────────────────────
+       APPLY CTA
+    ──────────────────────────────────────────── */
+    .apply-cta {
+      position: relative;
+      background: var(--color-red);
+      padding: clamp(80px, 12vw, 160px) clamp(20px, 6vw, 80px);
+      overflow: hidden;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .apply-cta-scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.06) 2px,
+        rgba(0,0,0,0.06) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.06;
+    }
+
+    .apply-cta-deco {
+      position: absolute;
+      right: -2%;
+      bottom: -10%;
+      font-family: var(--font-display);
+      font-size: 280px;
+      color: rgba(0,0,0,0.08);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      z-index: 0;
+    }
+
+    .apply-cta-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .apply-cta-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-display-l);
+      color: #000000;
+      line-height: 1.1;
+    }
+
+    .apply-cta-sub {
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: rgba(0,0,0,0.7);
+    }
+
+    .apply-cta-note {
+      margin-top: 12px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(0,0,0,0.5);
+    }
+
+    .apply-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0A0A0A;
+      color: #FFFFFF;
+      border: none;
+      padding: 22px 72px;
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: 18px;
+      border-radius: var(--radius-btn);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: var(--transition-slow);
+      white-space: nowrap;
+      text-decoration: none;
+      margin-top: 48px;
+    }
+
+    .apply-cta-btn:hover {
+      background: #1F1F1F;
+      box-shadow: 0 4px 60px rgba(0,0,0,0.6);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────────────── */
+    @media (max-width: 1199px) {
+      .path-intro-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .env-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .conditions-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .path-selector-inner {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .path-tab {
+        padding: 16px 24px 14px;
+        font-size: 16px;
+      }
+
+      .env-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .graduation-paths {
+        flex-direction: column;
+      }
+
+      .graduation-path:first-child {
+        border-right: var(--border-card);
+        border-bottom: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ノイズキャンバス -->
+<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
+<div class="scanlines"></div>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise" style="filter:invert(1);">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">HOME</a></li>
+    <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+    <li><a href="index.html#games" class="nav-link">GAMES</a></li>
+    <li><a href="results.html" class="nav-link">RESULTS</a></li>
+    <li><a href="recruit.html" class="nav-link active">RECRUIT</a></li>
+    <li><a href="community.html" class="nav-link">COMMUNITY</a></li>
+    <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+  </ul>
+  <a href="#apply" class="btn-primary nav-cta">今すぐ応募する</a>
+  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
+  <a href="index.html">HOME</a>
+  <a href="members.html">MEMBERS</a>
+  <a href="index.html#games">GAMES</a>
+  <a href="results.html">RESULTS</a>
+  <a href="recruit.html">RECRUIT</a>
+  <a href="community.html">COMMUNITY</a>
+  <a href="contact.html">CONTACT</a>
+  <a href="#apply" class="btn-primary">今すぐ応募する</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  HERO
+═══════════════════════════════════════════ -->
+<section class="recruit-hero">
+  <div class="recruit-hero-inner">
+    <p class="recruit-hero-eyebrow fade-up">REGALRISE — JOIN THE TEAM</p>
+    <h1 class="recruit-hero-heading fade-up delay-1">
+      才能を持ってこい。<br>
+      <span>道は、俺たちが作る。</span>
+    </h1>
+    <div class="recruit-hero-paths fade-up delay-2">
+      <span class="recruit-hero-path-badge active">PLAYER PATH</span>
+      <span class="recruit-hero-path-badge active">STREAMER PATH</span>
+    </div>
+    <p class="recruit-hero-sub fade-up delay-3">
+      ランクは関係ない。経験は関係ない。<br>
+      本気で、才能を使いたいか。それだけだ。
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  PATH SELECTOR (タブ)
+═══════════════════════════════════════════ -->
+<div class="path-selector" id="detail">
+  <div class="path-selector-inner">
+    <button class="path-tab active" data-path="player">PLAYER PATH</button>
+    <button class="path-tab" data-path="streamer">STREAMER PATH</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  PLAYER PATH コンテンツ
+═══════════════════════════════════════════ -->
+<div id="path-player" class="path-content-block active">
+
+  <!-- イントロ -->
+  <section class="path-intro player-path" aria-labelledby="player-path-heading">
+    <div class="path-intro-inner">
+      <div class="path-intro-left">
+        <p class="path-intro-label fade-up">PLAYER PATH</p>
+        <h2 class="path-intro-title fade-up delay-1" id="player-path-heading">REGAL PLAYER QUEST</h2>
+        <p class="path-intro-subtitle fade-up delay-1">競技で頂点を狙う、3年間のプログラム</p>
+        <p class="path-intro-body fade-up delay-2">
+          大阪拠点のeスポーツ育成プログラム。<br>
+          現金0円、設備フル完備で、競技プレイヤーとしての環境を丸ごと提供する。<br>
+          コーチング、データ分析、施設、ネットワーク ── すべて俺たちが用意する。<br>
+          お前がやることは、本気でプレイすることだけだ。
+        </p>
+        <div class="path-intro-quote fade-up delay-3">
+          <p class="path-intro-quote-text">「3年後、お前はプロになっている。」</p>
+        </div>
+      </div>
+      <div class="path-intro-right fade-up delay-2" style="display:flex;align-items:center;justify-content:center;">
+        <div style="
+          width:100%;
+          aspect-ratio:4/3;
+          background: linear-gradient(135deg, rgba(255,30,30,0.12) 0%, #0A0A0A 100%);
+          border: 1px solid var(--color-red-border);
+          border-radius: var(--radius-card);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        ">
+          <span style="font-family:var(--font-display);font-size:clamp(60px,10vw,120px);color:rgba(255,30,30,0.20);letter-spacing:0.05em;">PLAYER</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 環境投資の中身 -->
+  <section class="env-list-section player-path" aria-labelledby="player-env-heading">
+    <div class="env-list-inner">
+      <p class="env-list-label fade-up">WHAT WE PROVIDE</p>
+      <h2 class="env-list-heading fade-up delay-1" id="player-env-heading">環境投資の中身</h2>
+      <div class="env-grid">
+        <div class="env-item fade-up">
+          <p class="env-item-num">01</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">プロコーチング</h3>
+            <p class="env-item-body">現役・元プロプレイヤーによる個別コーチング。週次でのパフォーマンスレビューと改善提案。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-1">
+          <p class="env-item-num">02</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">データ分析</h3>
+            <p class="env-item-body">試合動画・統計データの専門的分析。弱点と強みを数値で把握し、短期間での成長を実現。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-2">
+          <p class="env-item-num">03</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">最新PC・周辺機器</h3>
+            <p class="env-item-body">プロ仕様ゲーミングPC・高リフレッシュレートモニター・最新周辺機器。すべて完備。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-1">
+          <p class="env-item-num">04</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">トレーニング施設</h3>
+            <p class="env-item-body">大阪拠点の専用施設。いつでも使えるゲーミング環境。自宅外での練習スペースとして活用できる。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-2">
+          <p class="env-item-num">05</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">大会ネットワーク</h3>
+            <p class="env-item-body">公式・非公式大会への出場サポート。チームとして組めるメンバーと、実戦経験を積む機会を提供。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-3">
+          <p class="env-item-num">06</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">メンタルサポート</h3>
+            <p class="env-item-body">競技の壁にぶつかったとき、一人にしない。スタッフとの定期面談で、モチベーションを維持する。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 育成プログラム（教育セクション） -->
+  <section class="education-section player-path" aria-labelledby="player-edu-heading">
+    <div class="education-inner">
+      <p class="education-label fade-up">EDUCATION PROGRAM</p>
+      <h2 class="education-heading fade-up delay-1" id="player-edu-heading">
+        プロは、知らなかったでは済まされない。
+      </h2>
+      <p class="education-sub fade-up delay-2">
+        RegalRiseは、技術だけじゃなく「プロとしての生き方」を教える。
+      </p>
+
+      <div class="education-list">
+
+        <div class="education-item fade-up">
+          <span class="education-item-num" aria-hidden="true">01</span>
+          <div class="education-item-content">
+            <p class="education-item-en">COMPLIANCE TRAINING</p>
+            <h3 class="education-item-title">法令と契約の知識</h3>
+            <p class="education-item-body">
+              著作権・賞金規制・選手契約・個人情報保護。
+              知識が、君を守る。プロは「知らなかった」では済まされない世界で戦う。
+            </p>
+          </div>
+        </div>
+
+        <div class="education-item fade-up delay-1">
+          <span class="education-item-num" aria-hidden="true">02</span>
+          <div class="education-item-content">
+            <p class="education-item-en">COMPETITIVE INTEGRITY</p>
+            <h3 class="education-item-title">競技倫理とアンチドーピング</h3>
+            <p class="education-item-body">
+              チート・談合・ドーピングの境界線。「勝てばいい」ではなく、「フェアに勝つ」がプロの定義だ。
+              風邪薬の成分まで確認する習慣を、ここで身につける。
+            </p>
+          </div>
+        </div>
+
+        <div class="education-item fade-up delay-2">
+          <span class="education-item-num" aria-hidden="true">03</span>
+          <div class="education-item-content">
+            <p class="education-item-en">MENTAL &amp; PHYSICAL HEALTH</p>
+            <h3 class="education-item-title">燃え尽きないための身体管理</h3>
+            <p class="education-item-body">
+              燃え尽き症候群の9つの予兆。週1日の完全オフ。睡眠・食事・リカバリー。
+              強さは、健康の上に立つ。壊れる前に、整える。
+            </p>
+          </div>
+        </div>
+
+        <div class="education-item fade-up delay-1">
+          <span class="education-item-num" aria-hidden="true">04</span>
+          <div class="education-item-content">
+            <p class="education-item-en">BUSINESS SKILLS</p>
+            <h3 class="education-item-title">プロとしてのビジネス感覚</h3>
+            <p class="education-item-body">
+              スポンサー案件の法的ルール。PR表記の義務。税金と確定申告。
+              才能だけでなく、プロとして生きる知識を持て。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 卒業後 -->
+  <section class="graduation-section player-path" aria-labelledby="player-grad-heading">
+    <div class="graduation-inner">
+      <p class="graduation-label fade-up">AFTER 3 YEARS</p>
+      <h2 class="graduation-heading fade-up delay-1" id="player-grad-heading">3年後の選択肢</h2>
+      <div class="graduation-paths fade-up delay-2">
+        <div class="graduation-path">
+          <p class="graduation-path-num">A</p>
+          <h3 class="graduation-path-title">プロチーム契約</h3>
+          <p class="graduation-path-body">RegalRise内でのプロ選手契約。大会実績と成長記録をもとに、チームが正式なプロ契約を結ぶ。日本国内のリーグ参戦を目指す。</p>
+        </div>
+        <div class="graduation-path">
+          <p class="graduation-path-num">B</p>
+          <h3 class="graduation-path-title">独立・外部チームへ</h3>
+          <p class="graduation-path-body">培ったスキルと実績をもって独立、または外部のプロチームへ移籍。俺たちはお前を所有しない。「We don't own you. We graduate you.」</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 応募条件 -->
+  <section class="conditions-section player-path" aria-labelledby="player-cond-heading">
+    <div class="conditions-inner">
+      <div class="conditions-left">
+        <p class="conditions-label fade-up">CONDITIONS</p>
+        <h2 class="conditions-heading fade-up delay-1" id="player-cond-heading">応募条件</h2>
+        <div class="conditions-list">
+          <div class="conditions-item fade-up delay-1">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">ランク・段位：<strong style="color:#fff;">不問</strong>（ダイヤ〜アンランクまで歓迎）</p>
+          </div>
+          <div class="conditions-item fade-up delay-1">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">競技経験：<strong style="color:#fff;">不問</strong>（初めての大会参加でOK）</p>
+          </div>
+          <div class="conditions-item fade-up delay-2">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">年齢：<strong style="color:#fff;">15歳以上</strong>（高校生からOK）</p>
+          </div>
+          <div class="conditions-item fade-up delay-2">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">対応タイトル：VALORANT / SF6 / FORTNITE / R6 Siege のいずれか</p>
+          </div>
+          <div class="conditions-item fade-up delay-3">
+            <div class="conditions-item-check"><span>!!</span></div>
+            <p class="conditions-item-text"><strong style="color:var(--color-red);">必須：</strong>本気で競技に向き合う意志。これだけ。</p>
+          </div>
+        </div>
+      </div>
+      <div class="conditions-right fade-up delay-2">
+        <div class="conditions-note">
+          <h3 class="conditions-note-title">現金0円で参加できる理由</h3>
+          <p class="conditions-note-body">
+            Regal Player Quest は、参加費・機材費・施設費すべて無料。<br>
+            RegalCastが投資する形で運営しており、お前には費用の心配をさせない。<br>
+            代わりに俺たちが求めるのは、本気のプレイだけだ。<br><br>
+            大阪拠点外からの参加者も、リモートでのコーチング・分析は対応可能。施設利用は要相談。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /path-player -->
+
+<!-- ═══════════════════════════════════════════
+  STREAMER PATH コンテンツ
+═══════════════════════════════════════════ -->
+<div id="path-streamer" class="path-content-block">
+
+  <!-- イントロ -->
+  <section class="path-intro streamer-path" aria-labelledby="streamer-path-heading">
+    <div class="path-intro-inner">
+      <div class="path-intro-left">
+        <p class="path-intro-label fade-up">STREAMER PATH</p>
+        <h2 class="path-intro-title fade-up delay-1" id="streamer-path-heading">REGAL QUEST</h2>
+        <p class="path-intro-subtitle fade-up delay-1">ファンを作る、ストリーマー育成プログラム</p>
+        <p class="path-intro-body fade-up delay-2">
+          フォロワーは0でいい。熱量があれば、俺たちが増やす。<br>
+          エディター・プロデューサー・マネージャーがチームとしてつく。<br>
+          収益分配は15〜80%。お前が育つほど、報酬も育つ。<br>
+          10万登録到達後は、完全独立かプロ転向。俺たちはお前を縛らない。
+        </p>
+        <div class="path-intro-quote fade-up delay-3">
+          <p class="path-intro-quote-text">「We don't own you. We graduate you.」</p>
+        </div>
+      </div>
+      <div class="path-intro-right fade-up delay-2" style="display:flex;align-items:center;justify-content:center;">
+        <div style="
+          width:100%;
+          aspect-ratio:4/3;
+          background: linear-gradient(135deg, rgba(255,30,30,0.12) 0%, #0A0A0A 100%);
+          border: 1px solid var(--color-red-border);
+          border-radius: var(--radius-card);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        ">
+          <span style="font-family:var(--font-display);font-size:clamp(40px,7vw,96px);color:rgba(255,30,30,0.20);letter-spacing:0.05em;">STREAMER</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 環境投資の中身 -->
+  <section class="env-list-section streamer-path" aria-labelledby="streamer-env-heading">
+    <div class="env-list-inner">
+      <p class="env-list-label fade-up">WHAT WE PROVIDE</p>
+      <h2 class="env-list-heading fade-up delay-1" id="streamer-env-heading">4専門家が、お前につく</h2>
+      <div class="env-grid">
+        <div class="env-item fade-up">
+          <p class="env-item-num">01</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">動画エディター</h3>
+            <p class="env-item-body">サムネイル・ショート・ハイライト編集を担当。お前は配信とプレイに集中できる。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-1">
+          <p class="env-item-num">02</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">プロデューサー</h3>
+            <p class="env-item-body">チャンネル戦略・コンテンツ設計・成長分析。視聴者が増える構造をデータで作る。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-2">
+          <p class="env-item-num">03</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">マネージャー</h3>
+            <p class="env-item-body">スケジュール管理・コラボ交渉・案件対応。お前の時間をプレイに最大化する。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-1">
+          <p class="env-item-num">04</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">SNS担当</h3>
+            <p class="env-item-body">X・TikTok・Instagramのテキストと投稿戦略。チャンネル外でもお前のブランドを育てる。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-2">
+          <p class="env-item-num">05</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">収益分配 15〜80%</h3>
+            <p class="env-item-body">成長に応じて分配率が上がる設計。登録者数・収益規模に比例し、お前の取り分が増える。</p>
+          </div>
+        </div>
+        <div class="env-item fade-up delay-3">
+          <p class="env-item-num">06</p>
+          <div class="env-item-content">
+            <h3 class="env-item-title">コミュニティ連携</h3>
+            <p class="env-item-body">コミュステのDiscordサーバーで視聴者コミュニティを構築。ファンベースを組織として作る。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 卒業後 -->
+  <section class="graduation-section streamer-path" aria-labelledby="streamer-grad-heading">
+    <div class="graduation-inner">
+      <p class="graduation-label fade-up">AFTER 10万 OR 3 YEARS</p>
+      <h2 class="graduation-heading fade-up delay-1" id="streamer-grad-heading">卒業後の選択肢</h2>
+      <div class="graduation-paths fade-up delay-2">
+        <div class="graduation-path">
+          <p class="graduation-path-num">A</p>
+          <h3 class="graduation-path-title">完全独立</h3>
+          <p class="graduation-path-body">10万登録達成 or 3年でプログラムを卒業。培ったチャンネル・ファンベース・収益はすべてお前のもの。RegalRiseは所有権を主張しない。</p>
+        </div>
+        <div class="graduation-path">
+          <p class="graduation-path-num">B</p>
+          <h3 class="graduation-path-title">プロ転向</h3>
+          <p class="graduation-path-body">PLAYER PATHへの転向、または外部のeスポーツ組織への移籍。ストリーマーとしての実績が、競技の世界でも武器になる。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 応募条件 -->
+  <section class="conditions-section streamer-path" aria-labelledby="streamer-cond-heading">
+    <div class="conditions-inner">
+      <div class="conditions-left">
+        <p class="conditions-label fade-up">CONDITIONS</p>
+        <h2 class="conditions-heading fade-up delay-1" id="streamer-cond-heading">応募条件</h2>
+        <div class="conditions-list">
+          <div class="conditions-item fade-up delay-1">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">登録者数：<strong style="color:#fff;">0人からOK</strong>（チャンネル未開設でもOK）</p>
+          </div>
+          <div class="conditions-item fade-up delay-1">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">配信経験：<strong style="color:#fff;">不問</strong>（初めての配信でOK）</p>
+          </div>
+          <div class="conditions-item fade-up delay-2">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">年齢：<strong style="color:#fff;">15歳以上</strong>（保護者同意があれば可）</p>
+          </div>
+          <div class="conditions-item fade-up delay-2">
+            <div class="conditions-item-check"><span>OK</span></div>
+            <p class="conditions-item-text">ゲームジャンル：<strong style="color:#fff;">問わない</strong>（APEX・VALORANT・SF6・その他）</p>
+          </div>
+          <div class="conditions-item fade-up delay-3">
+            <div class="conditions-item-check"><span>!!</span></div>
+            <p class="conditions-item-text"><strong style="color:var(--color-red);">必須：</strong>視聴者を楽しませたい、熱量を持ち続けられる意志。</p>
+          </div>
+        </div>
+      </div>
+      <div class="conditions-right fade-up delay-2">
+        <div class="conditions-note">
+          <h3 class="conditions-note-title">ねこまが証明した</h3>
+          <p class="conditions-note-body">
+            所属ストリーマー ねこまは、登録者7,000人超を達成。<br>
+            APEXを中心に、RegalRiseのSTREAMER PATHを体現している。<br><br>
+            彼女が歩んだ道を、俺たちはシステムにした。<br>
+            同じ道を歩ける人間を探している。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /path-streamer -->
+
+<!-- ═══════════════════════════════════════════
+  APPLY CTA
+═══════════════════════════════════════════ -->
+<section class="apply-cta" id="apply" aria-labelledby="apply-heading">
+  <div class="apply-cta-scanlines"></div>
+  <div class="apply-cta-deco" aria-hidden="true">RISE</div>
+
+  <div class="apply-cta-inner">
+    <h2 class="apply-cta-heading fade-up" id="apply-heading">今が、そのタイミングだ。</h2>
+    <p class="apply-cta-sub fade-up delay-1">才能は、使わなければ消える。</p>
+    <p class="apply-cta-note fade-up delay-1">応募フォームから、3分で完了。</p>
+    <a href="#" class="apply-cta-btn fade-up delay-2">応募フォームへ</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise" style="filter:invert(1);">
+        <p class="footer-tagline">眠れる才能を、主人公へ。</p>
+        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-nav-label">LINKS</p>
+        <a href="index.html">HOME</a>
+        <a href="members.html">MEMBERS</a>
+        <a href="index.html#games">GAMES</a>
+        <a href="results.html">RESULTS</a>
+        <a href="recruit.html">RECRUIT</a>
+        <a href="community.html">COMMUNITY</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/noise.js"></script>
+<script src="assets/js/scroll-anim.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    if (window.noiseBurst) window.noiseBurst(500);
+  });
+
+  // ハンバーガーメニュー
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // パスタブ切り替え
+  const tabs = document.querySelectorAll('.path-tab');
+  const playerBlock = document.getElementById('path-player');
+  const streamerBlock = document.getElementById('path-streamer');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+
+      const path = tab.dataset.path;
+      if (path === 'player') {
+        playerBlock.classList.add('active');
+        streamerBlock.classList.remove('active');
+      } else {
+        streamerBlock.classList.add('active');
+        playerBlock.classList.remove('active');
+      }
+
+      // タブ切り替え後にスクロールアニメを再トリガー
+      document.querySelectorAll('.fade-up:not(.visible)').forEach(function (el) {
+        // すでにビューポート内のものを表示
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.9) {
+          el.classList.add('visible');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

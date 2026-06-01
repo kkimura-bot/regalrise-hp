@@ -1,0 +1,218 @@
+/* ============================================================
+   RegalRise HP v2 — Navigation (固定ナビ・全ページ共通)
+   design_spec.md NAV仕様準拠
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  padding: 0 clamp(20px, 6vw, 80px);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,30,30,0.15);
+  z-index: var(--z-nav);
+}
+
+/* ─── ロゴ ─── */
+.nav-logo {
+  flex-shrink: 0;
+  margin-right: auto;
+}
+
+.nav-logo img {
+  height: 28px;
+  filter: invert(1);
+  display: block;
+  transition: opacity var(--transition-fast);
+}
+
+.nav-logo:hover img {
+  opacity: 0.8;
+}
+
+/* ─── ナビリンク群 ─── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  margin-right: clamp(24px, 4vw, 48px);
+}
+
+.nav-link {
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+  position: relative;
+  padding-bottom: 4px;
+}
+
+/* ホバー下線伸び */
+.nav-link::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  color: var(--color-text-primary);
+}
+
+/* ─── CTAボタン ─── */
+.nav-cta {
+  flex-shrink: 0;
+  font-size: 13px;
+  padding: 10px 24px;
+}
+
+/* ─── ハンバーガーボタン（モバイル用） ─── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  margin-left: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* 開いたとき × に変形 */
+.nav-hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── モバイルメニュー ─── */
+.nav-mobile-menu {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: rgba(10,10,10,0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,30,30,0.3);
+  padding: 24px clamp(20px, 6vw, 80px) 32px;
+  z-index: 150;
+  flex-direction: column;
+  gap: 0;
+  /* アニメーション用 */
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  pointer-events: none;
+}
+
+.nav-mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nav-mobile-menu a {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: color var(--transition-fast);
+}
+
+.nav-mobile-menu a:hover {
+  color: var(--color-red);
+}
+
+.nav-mobile-menu .btn-primary {
+  margin-top: 24px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 767px) {
+  .nav {
+    height: 56px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-logo img {
+    height: 24px;
+  }
+
+  /* モバイルではメニューのtopをナビの高さに合わせる */
+  .nav-mobile-menu {
+    top: 56px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .nav-links {
+    gap: 24px;
+  }
+
+  .nav-cta {
+    font-size: 12px;
+    padding: 9px 18px;
+  }
+}

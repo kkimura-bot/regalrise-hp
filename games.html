@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAMES — RegalRise</title>
+  <meta name="description" content="RegalRiseが戦う4つのゲームタイトル。VALORANT / Street Fighter 6 / FORTNITE / Apex Legends。どこかに、お前の戦場がある。">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <style>
+    /* ────────────────────────────────────────────
+       HERO
+    ──────────────────────────────────────────── */
+    .games-hero {
+      position: relative;
+      height: 70vh;
+      min-height: 480px;
+      background: radial-gradient(ellipse 80% 60% at 50% 60%, rgba(255,30,30,0.22) 0%, transparent 65%), #0A0A0A;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .games-hero-inner {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      padding: 0 clamp(20px, 6vw, 80px);
+    }
+
+    .games-hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 0.5em;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .games-hero-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-display-l);
+      color: #FFFFFF;
+      line-height: 1.05;
+    }
+
+    .games-hero-heading span {
+      color: var(--color-red);
+      text-shadow: var(--shadow-text-glow);
+    }
+
+    .games-hero-sub {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+    }
+
+    /* ────────────────────────────────────────────
+       ゲームセクション（共通）
+    ──────────────────────────────────────────── */
+    .game-section {
+      position: relative;
+      min-height: 60vh;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 60% 40%;
+    }
+
+    /* 偶数番目：左右反転 */
+    .game-section.reverse {
+      grid-template-columns: 40% 60%;
+    }
+
+    .game-text-col {
+      position: relative;
+      z-index: 10;
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--color-black);
+    }
+
+    .game-section.reverse .game-text-col {
+      order: 2;
+      background: var(--color-black-soft);
+    }
+
+    .game-section.reverse .game-img-col {
+      order: 1;
+    }
+
+    .game-img-col {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-img-col::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #0A0A0A 0%, transparent 30%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .game-section.reverse .game-img-col::before {
+      background: linear-gradient(to left, var(--color-black-soft) 0%, transparent 30%);
+    }
+
+    .game-img-col .game-bg {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .game-section:hover .game-bg {
+      transform: scale(1.04);
+    }
+
+    /* テキスト内要素 */
+    .game-num {
+      font-family: var(--font-impact);
+      font-size: 80px;
+      color: rgba(255,30,30,0.10);
+      line-height: 1;
+      margin-bottom: -16px;
+      user-select: none;
+    }
+
+    .game-title-en {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      letter-spacing: 0.03em;
+      line-height: 1;
+    }
+
+    .game-catch {
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h3);
+      color: var(--color-red);
+      line-height: var(--leading-snug);
+    }
+
+    .game-body {
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .game-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .game-tag {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: var(--radius-badge);
+      background: var(--color-red-glow-soft);
+      color: var(--color-red);
+      border: 1px solid var(--color-red-border);
+    }
+
+    .game-result {
+      margin-top: 24px;
+      padding: 16px 20px;
+      background: var(--color-black-raise);
+      border-left: var(--border-left-accent);
+    }
+
+    .game-result-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+
+    .game-result-text {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+
+    .game-recruit-link {
+      margin-top: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.1em;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .game-recruit-link:hover { color: var(--color-red); }
+
+    /* VALORANT */
+    .bg-valorant {
+      background-image: url('assets/images/games_valorant.png');
+      background-color: #1A0A0A;
+    }
+
+    /* SF6 */
+    .bg-sf6 {
+      background-image: url('assets/images/games_sf6.png');
+      background-color: #0A0A1A;
+    }
+
+    /* FORTNITE */
+    .bg-fortnite {
+      background-image: url('assets/images/games_fortnite.png');
+      background-color: #0A1210;
+    }
+
+    /* R6 */
+    .bg-r6 {
+      background-image: url('assets/images/games_apex.png');
+      background-color: #0A0F1A;
+    }
+
+    /* セクション区切り */
+    .game-divider {
+      height: 1px;
+      background: var(--grad-red-sweep);
+      opacity: 0.3;
+    }
+
+    /* ────────────────────────────────────────────
+       BOTTOM CTA
+    ──────────────────────────────────────────── */
+    .games-cta {
+      background: var(--color-black-mid);
+      border-top: 1px solid var(--color-red-border);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      text-align: center;
+    }
+
+    .games-cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .games-cta-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .games-cta-body {
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+    }
+
+    .games-cta-btn-group {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ────────────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────────────── */
+    @media (max-width: 1199px) {
+      .game-section,
+      .game-section.reverse {
+        grid-template-columns: 55% 45%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .game-section,
+      .game-section.reverse {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .game-section .game-text-col,
+      .game-section.reverse .game-text-col {
+        order: 2;
+      }
+
+      .game-section .game-img-col,
+      .game-section.reverse .game-img-col {
+        order: 1;
+        min-height: 240px;
+      }
+
+      .game-section .game-img-col::before,
+      .game-section.reverse .game-img-col::before {
+        background: linear-gradient(to top, var(--color-black) 0%, transparent 40%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ノイズキャンバス -->
+<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
+<div class="scanlines"></div>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise" style="filter:invert(1);">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">HOME</a></li>
+    <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+    <li><a href="games.html" class="nav-link active">GAMES</a></li>
+    <li><a href="results.html" class="nav-link">RESULTS</a></li>
+    <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
+    <li><a href="community.html" class="nav-link">COMMUNITY</a></li>
+    <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+  </ul>
+  <a href="recruit.html" class="btn-primary nav-cta">チームに参加する</a>
+  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
+  <a href="index.html">HOME</a>
+  <a href="members.html">MEMBERS</a>
+  <a href="games.html">GAMES</a>
+  <a href="results.html">RESULTS</a>
+  <a href="recruit.html">RECRUIT</a>
+  <a href="community.html">COMMUNITY</a>
+  <a href="contact.html">CONTACT</a>
+  <a href="recruit.html" class="btn-primary">チームに参加する</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  HERO
+═══════════════════════════════════════════ -->
+<section class="games-hero">
+  <div class="games-hero-inner">
+    <p class="games-hero-eyebrow fade-up">REGALRISE — BATTLEFIELDS</p>
+    <h1 class="games-hero-heading fade-up delay-1">
+      4つの戦場。<br><span>どこかに、お前の場所がある。</span>
+    </h1>
+    <p class="games-hero-sub fade-up delay-2">
+      タクティカル、格闘、バトルロイヤル。ジャンルを問わず、本気で戦う。
+    </p>
+  </div>
+</section>
+
+<div class="game-divider"></div>
+
+<!-- ═══════════════════════════════════════════
+  VALORANT
+═══════════════════════════════════════════ -->
+<section class="game-section" id="valorant" aria-labelledby="valorant-heading">
+  <div class="game-text-col">
+    <p class="game-num fade-up">01</p>
+    <h2 class="game-title-en fade-up delay-1" id="valorant-heading">VALORANT</h2>
+    <p class="game-catch fade-up delay-1">精密な判断が、勝者を決める。</p>
+    <p class="game-body fade-up delay-2">
+      タクティカルFPS。チームとしての戦略と個人の技術が噛み合ったとき、試合が動く。
+      RegalRiseはVALORANTに本気だ。
+    </p>
+    <div class="game-tags fade-up delay-2">
+      <span class="game-tag">大会参加</span>
+      <span class="game-tag">チーム内スクリム</span>
+      <span class="game-tag">コーチング</span>
+    </div>
+    <a href="recruit.html" class="game-recruit-link fade-up delay-3">
+      VALORANTプレイヤーを募集中 →
+    </a>
+  </div>
+  <div class="game-img-col">
+    <div class="game-bg bg-valorant"></div>
+  </div>
+</section>
+
+<div class="game-divider"></div>
+
+<!-- ═══════════════════════════════════════════
+  STREET FIGHTER 6
+═══════════════════════════════════════════ -->
+<section class="game-section reverse" id="sf6" aria-labelledby="sf6-heading">
+  <div class="game-img-col">
+    <div class="game-bg bg-sf6"></div>
+  </div>
+  <div class="game-text-col">
+    <p class="game-num fade-up">02</p>
+    <h2 class="game-title-en fade-up delay-1" id="sf6-heading">STREET FIGHTER 6</h2>
+    <p class="game-catch fade-up delay-1">一対一。言い訳のない世界。</p>
+    <p class="game-body fade-up delay-2">
+      格闘ゲーム。読み合い・対応力・精神力。すべてが問われる、最も純粋な競技。
+    </p>
+    <div class="game-tags fade-up delay-2">
+      <span class="game-tag">大会参加</span>
+      <span class="game-tag">スパーリング</span>
+      <span class="game-tag">プロコーチング</span>
+    </div>
+    <div class="game-result fade-up delay-3">
+      <p class="game-result-label">RECORD</p>
+      <p class="game-result-text">Rise CUP SF6 × 3回開催 / 集え！若き戦士杯 開催実績</p>
+    </div>
+    <a href="recruit.html" class="game-recruit-link fade-up delay-3">
+      SF6プレイヤーを募集中 →
+    </a>
+  </div>
+</section>
+
+<div class="game-divider"></div>
+
+<!-- ═══════════════════════════════════════════
+  FORTNITE
+═══════════════════════════════════════════ -->
+<section class="game-section" id="fortnite" aria-labelledby="fortnite-heading">
+  <div class="game-text-col">
+    <p class="game-num fade-up">03</p>
+    <h2 class="game-title-en fade-up delay-1" id="fortnite-heading">FORTNITE</h2>
+    <p class="game-catch fade-up delay-1">最後の一人になるまで、走れ。</p>
+    <p class="game-body fade-up delay-2">
+      バトルロイヤル。建築・射撃・判断力。すべての要素が詰まった、総合格闘技のようなゲーム。
+    </p>
+    <div class="game-tags fade-up delay-2">
+      <span class="game-tag">大会参加</span>
+      <span class="game-tag">デュオ・スクワッド</span>
+      <span class="game-tag">建築練習</span>
+    </div>
+    <a href="recruit.html" class="game-recruit-link fade-up delay-3">
+      FORTNITEプレイヤーを募集中 →
+    </a>
+  </div>
+  <div class="game-img-col">
+    <div class="game-bg bg-fortnite"></div>
+  </div>
+</section>
+
+<div class="game-divider"></div>
+
+<!-- ═══════════════════════════════════════════
+  APEX LEGENDS
+═══════════════════════════════════════════ -->
+<section class="game-section reverse" id="apex" aria-labelledby="apex-heading">
+  <div class="game-img-col">
+    <div class="game-bg bg-r6"></div>
+  </div>
+  <div class="game-text-col">
+    <p class="game-num fade-up">04</p>
+    <h2 class="game-title-en fade-up delay-1" id="apex-heading">APEX LEGENDS</h2>
+    <p class="game-catch fade-up delay-1">生き残ったやつが、伝説になる。</p>
+    <p class="game-body fade-up delay-2">
+      タクティカルFPS。5対5の極限戦術。一人のミスが全滅を招く世界で、チームを信じて動く。
+    </p>
+    <div class="game-tags fade-up delay-2">
+      <span class="game-tag">大会参加</span>
+      <span class="game-tag">戦術研究</span>
+      <span class="game-tag">チーム戦術</span>
+    </div>
+    <a href="recruit.html" class="game-recruit-link fade-up delay-3">
+      Apex Legendsプレイヤーを募集中 →
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  BOTTOM CTA
+═══════════════════════════════════════════ -->
+<section class="games-cta" aria-labelledby="games-cta-heading">
+  <div class="games-cta-inner">
+    <h2 class="games-cta-heading fade-up" id="games-cta-heading">
+      お前の戦場は、決まったか。
+    </h2>
+    <p class="games-cta-body fade-up delay-1">
+      4タイトルすべてで選手を募集中。ランクも経験も問わない。
+    </p>
+    <div class="games-cta-btn-group fade-up delay-2">
+      <a href="recruit.html" class="btn-primary">今すぐ応募する</a>
+      <a href="members.html" class="btn-ghost">メンバーを見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise" style="filter:invert(1);">
+        <p class="footer-tagline">眠れる才能を、主人公へ。</p>
+        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-nav-label">LINKS</p>
+        <a href="index.html">HOME</a>
+        <a href="members.html">MEMBERS</a>
+        <a href="games.html">GAMES</a>
+        <a href="results.html">RESULTS</a>
+        <a href="recruit.html">RECRUIT</a>
+        <a href="community.html">COMMUNITY</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/noise.js"></script>
+<script src="assets/js/scroll-anim.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    if (window.noiseBurst) window.noiseBurst(500);
+  });
+
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  }
+</script>
+</body>
+</html>

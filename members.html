@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMBERS — RegalRise</title>
+  <meta name="description" content="RegalRiseに所属するストリーマー・プレイヤー一覧。ねこまをはじめ、次世代の主人公たちが集まる。">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <style>
+    /* ────────────────────────────────────────────
+       HERO
+    ──────────────────────────────────────────── */
+    .members-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.80) 60%, #0A0A0A 100%),
+        url('assets/images/team_visual.png') center/cover no-repeat,
+        #0A0A0A;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .members-hero-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(255,30,30,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .members-hero-inner {
+      position: relative;
+      z-index: 10;
+      padding: 0 clamp(20px, 8vw, 120px) clamp(60px, 8vw, 100px);
+      width: 100%;
+    }
+
+    .members-hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+    }
+
+    .members-hero-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-display-l);
+      color: #FFFFFF;
+      line-height: 1.05;
+    }
+
+    .members-hero-heading span {
+      color: var(--color-red);
+      text-shadow: var(--shadow-text-glow);
+    }
+
+    .members-hero-sub {
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      max-width: 560px;
+    }
+
+    /* ────────────────────────────────────────────
+       ROSTER SECTION
+    ──────────────────────────────────────────── */
+    .roster-section {
+      background: var(--color-black);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .roster-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .roster-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+
+    .roster-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 56px;
+    }
+
+    /* 非対称グリッド：ねこまを左全段、右に2×2 */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: minmax(260px, auto) minmax(260px, auto) minmax(260px, auto);
+      gap: 3px;
+    }
+
+    /* ────────────────────────────────────────────
+       NEKOMA カード（フィーチャード・大）
+    ──────────────────────────────────────────── */
+    .roster-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--color-black-raise);
+      border: var(--border-card);
+      transition: border-color var(--transition-base),
+                  box-shadow var(--transition-base),
+                  transform var(--transition-slow);
+    }
+
+    .roster-card:hover {
+      border-color: var(--color-red-border);
+      box-shadow: var(--shadow-card-red);
+      transform: translateY(-4px);
+    }
+
+    .roster-card-featured {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+    }
+
+    .roster-card-featured .roster-card-bg {
+      width: 100%;
+      height: 100%;
+      min-height: 560px;
+      background:
+        linear-gradient(to bottom, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.85) 100%),
+        url('assets/images/members/nekoma_icon.jpg') center top/cover no-repeat;
+    }
+
+    /* RECRUITINGカード */
+    .roster-card-recruit {
+      aspect-ratio: 1/1;
+      background: var(--color-black-raise);
+      border: 1px dashed rgba(255,30,30,0.25);
+    }
+
+    .roster-card-recruit-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+    }
+
+    .recruit-plus {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 80px);
+      color: rgba(255,30,30,0.30);
+      line-height: 1;
+    }
+
+    .recruit-game-label {
+      font-family: var(--font-display);
+      font-size: clamp(14px, 2vw, 20px);
+      letter-spacing: 0.1em;
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    .recruit-status {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      border: 1px solid var(--color-red-border);
+      padding: 4px 12px;
+      border-radius: var(--radius-badge);
+    }
+
+    .recruit-cta-link {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .recruit-cta-link:hover { color: var(--color-red); }
+
+    /* ────────────────────────────────────────────
+       カードオーバーレイ（テキスト）
+    ──────────────────────────────────────────── */
+    .roster-card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 32px 28px;
+      background: linear-gradient(to top, rgba(10,10,10,0.97) 0%, rgba(10,10,10,0.6) 50%, transparent 100%);
+    }
+
+    .roster-card-name {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      /* 長い名前でも収まるよう */
+      overflow-wrap: break-word;
+      word-break: break-all;
+    }
+
+    /* 小カードは名前を自動縮小 */
+    .roster-card-sm .roster-card-name {
+      font-size: clamp(20px, 4vw, 48px);
+      letter-spacing: 0.02em;
+    }
+
+    .roster-card-name-ja {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .roster-card-role {
+      margin-top: 6px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--color-red);
+    }
+
+    .roster-card-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .badge-role {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: var(--radius-badge);
+      background: rgba(255,30,30,0.12);
+      color: var(--color-red);
+      border: 1px solid var(--color-red-border);
+    }
+
+    .roster-card-quote {
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(255,255,255,0.50);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .roster-card-quote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--color-text-muted);
+    }
+
+    .roster-card-yt {
+      margin-top: 16px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--color-text-muted);
+    }
+
+    .roster-card-yt a {
+      color: var(--color-red);
+      text-decoration: none;
+    }
+
+    .roster-card-yt a:hover { text-decoration: underline; }
+
+    /* ────────────────────────────────────────────
+       BOTTOM CTA
+    ──────────────────────────────────────────── */
+    .members-cta-section {
+      position: relative;
+      background: var(--color-black-soft);
+      padding: clamp(80px, 12vw, 140px) clamp(20px, 6vw, 80px);
+      border-top: 2px solid var(--color-red);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .members-cta-deco {
+      position: absolute;
+      bottom: -12%;
+      right: -2%;
+      font-family: var(--font-display);
+      font-size: 260px;
+      color: rgba(255,255,255,0.025);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .members-cta-inner { position: relative; z-index: 2; }
+
+    .members-cta-eyebrow {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      margin-bottom: 20px;
+    }
+
+    .members-cta-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .members-cta-body {
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .members-cta-btn-group {
+      margin-top: 48px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ────────────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────────────── */
+    @media (max-width: 767px) {
+      .roster-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+
+      .roster-card-featured {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .roster-card-featured .roster-card-bg {
+        min-height: 400px;
+      }
+
+      .roster-card-recruit {
+        aspect-ratio: auto;
+        min-height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ノイズキャンバス -->
+<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
+<div class="scanlines"></div>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise" style="filter:invert(1);">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">HOME</a></li>
+    <li><a href="members.html" class="nav-link active">MEMBERS</a></li>
+    <li><a href="games.html" class="nav-link">GAMES</a></li>
+    <li><a href="results.html" class="nav-link">RESULTS</a></li>
+    <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
+    <li><a href="community.html" class="nav-link">COMMUNITY</a></li>
+    <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+  </ul>
+  <a href="recruit.html" class="btn-primary nav-cta">チームに参加する</a>
+  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
+  <a href="index.html">HOME</a>
+  <a href="members.html">MEMBERS</a>
+  <a href="games.html">GAMES</a>
+  <a href="results.html">RESULTS</a>
+  <a href="recruit.html">RECRUIT</a>
+  <a href="community.html">COMMUNITY</a>
+  <a href="contact.html">CONTACT</a>
+  <a href="recruit.html" class="btn-primary">チームに参加する</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  HERO
+═══════════════════════════════════════════ -->
+<section class="members-hero">
+  <div class="members-hero-glow"></div>
+  <div class="members-hero-inner">
+    <p class="members-hero-eyebrow fade-up">REGALRISE — THE ROSTER</p>
+    <h1 class="members-hero-heading fade-up delay-1">
+      才能は、<span>ここに集まる。</span>
+    </h1>
+    <p class="members-hero-sub fade-up delay-2">
+      一人では届かなかった場所へ。同じ本気が、集まる場所。
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  ROSTER
+═══════════════════════════════════════════ -->
+<section class="roster-section" aria-labelledby="roster-heading">
+  <div class="roster-inner">
+    <p class="roster-label fade-up">—— THE PLAYERS</p>
+    <h2 class="roster-heading fade-up delay-1" id="roster-heading">MEMBERS</h2>
+
+    <div class="roster-grid">
+
+      <!-- ねこま：フィーチャードカード（大）-->
+      <div class="roster-card roster-card-featured fade-up">
+        <div class="roster-card-bg"></div>
+        <div class="roster-card-overlay">
+          <p class="roster-card-name">NEKOMA</p>
+          <p class="roster-card-name-ja">ねこま</p>
+          <p class="roster-card-role">SF6 PLAYER</p>
+          <div class="roster-card-badges">
+            <span class="badge-role badge-sf6">SF6</span>
+          </div>
+          <p class="roster-card-yt">YouTube: <a href="https://www.youtube.com/@znekoma" target="_blank" rel="noopener">@znekoma</a> &nbsp;—&nbsp; 7,000+ 登録者</p>
+          <blockquote class="roster-card-quote">
+            "RegalRiseに入ったのは、一人で戦うことに限界を感じたから。
+            ここには、同じ本気がある。"
+            <cite>— NEKOMA</cite>
+          </blockquote>
+        </div>
+      </div>
+
+      <!-- あーさー -->
+      <div class="roster-card roster-card-sm fade-up delay-1" style="background: url('assets/images/members/aasa.jpg') center/cover no-repeat, #0a0a0a;">
+        <div class="roster-card-overlay">
+          <p class="roster-card-name">あーさー</p>
+          <p class="roster-card-role">APEX LEGENDS</p>
+          <div class="roster-card-badges">
+            <span class="badge-role badge-apex">APEX</span>
+            <span class="badge-role">PLAYER PATH</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- simple -->
+      <div class="roster-card roster-card-sm fade-up delay-2" style="background: url('assets/images/members/simple.png') center 15%/contain no-repeat, #1a0e1f;">
+        <div class="roster-card-overlay">
+          <p class="roster-card-name">SIMPLE</p>
+          <p class="roster-card-name-ja">simple</p>
+          <p class="roster-card-role">APEX LEGENDS</p>
+          <div class="roster-card-badges">
+            <span class="badge-role badge-apex">APEX</span>
+            <span class="badge-role">PLAYER PATH</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- vectorsurge -->
+      <div class="roster-card roster-card-sm fade-up delay-1" style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);">
+        <div class="roster-card-overlay">
+          <p class="roster-card-name">VECTORSURGE</p>
+          <p class="roster-card-name-ja">vectorsurge</p>
+          <p class="roster-card-role">APEX LEGENDS</p>
+          <div class="roster-card-badges">
+            <span class="badge-role badge-apex">APEX</span>
+            <span class="badge-role">PLAYER PATH</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /roster-grid -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  BOTTOM CTA
+═══════════════════════════════════════════ -->
+<section class="members-cta-section" aria-labelledby="members-cta-heading">
+  <div class="members-cta-deco" aria-hidden="true">RISE</div>
+  <div class="members-cta-inner">
+    <p class="members-cta-eyebrow fade-up">JOIN THE TEAM</p>
+    <h2 class="members-cta-heading fade-up delay-1" id="members-cta-heading">
+      チームの一員に、なりたいか。
+    </h2>
+    <p class="members-cta-body fade-up delay-2">
+      ランクも経験も問わない。本気で戦いたいなら、RegalRiseに来い。
+    </p>
+    <div class="members-cta-btn-group fade-up delay-3">
+      <a href="recruit.html" class="btn-primary">今すぐ応募する</a>
+      <a href="recruit.html#detail" class="btn-ghost">詳細を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise" style="filter:invert(1);">
+        <p class="footer-tagline">眠れる才能を、主人公へ。</p>
+        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-nav-label">LINKS</p>
+        <a href="index.html">HOME</a>
+        <a href="members.html">MEMBERS</a>
+        <a href="games.html">GAMES</a>
+        <a href="results.html">RESULTS</a>
+        <a href="recruit.html">RECRUIT</a>
+        <a href="community.html">COMMUNITY</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/noise.js"></script>
+<script src="assets/js/scroll-anim.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    if (window.noiseBurst) window.noiseBurst(500);
+  });
+
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  }
+</script>
+</body>
+</html>

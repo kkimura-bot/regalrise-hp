@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COMMUNITY — RegalRise コミュステ</title>
+  <meta name="description" content="舞台は、ここにある。コミュステは、すべてのプレイヤーに舞台を提供するDiscordコミュニティ。APEX・SF6・VALORANT・Slay the Spire 2対応。">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <style>
+    /* ── HERO ── */
+    .community-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 60%, rgba(255,30,30,0.45) 0%, transparent 70%),
+        linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.8) 100%),
+        url('assets/images/community_hero.png') center/cover no-repeat,
+        #0A0A0A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      padding: 0 clamp(20px, 6vw, 80px);
+    }
+
+    .hero-sublabel {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.5em;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-main-en {
+      font-family: var(--font-display);
+      font-size: var(--text-display-xl);
+      color: #FFFFFF;
+      text-shadow: var(--shadow-text-glow);
+      letter-spacing: 0.05em;
+      line-height: 0.95;
+    }
+
+    .hero-main-ja {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: rgba(255,255,255,0.9);
+      margin-top: 16px;
+      line-height: var(--leading-snug);
+    }
+
+    .hero-main-en-sub {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 32px);
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      margin-top: 8px;
+    }
+
+    .hero-subcopy {
+      margin-top: 32px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .hero-cta {
+      margin-top: 48px;
+    }
+
+    /* ── ABOUT COMUST ── */
+    .about-section {
+      background: var(--color-black);
+      overflow: hidden;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      min-height: 60vh;
+    }
+
+    .about-left {
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px) var(--section-pad-y) clamp(20px, 8vw, 120px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .about-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      margin-bottom: 24px;
+    }
+
+    .about-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .about-body {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    .about-platforms {
+      margin-top: 40px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .platform-badge-discord {
+      background: #5865F2;
+      color: #FFFFFF;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .platform-badge-x {
+      background: #000000;
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .about-right {
+      position: relative;
+      background: var(--color-black-soft);
+      overflow: hidden;
+    }
+
+    /* 斜め分割ライン */
+    .about-diagonal {
+      position: absolute;
+      left: -1px;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      background: linear-gradient(to right, #0A0A0A 0%, transparent 100%);
+      clip-path: polygon(0 0, 40px 0, 100% 100%, 0 100%);
+      z-index: 1;
+    }
+
+    .about-right-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .about-vert-line {
+      width: 2px;
+      height: 60%;
+      background: var(--color-red);
+      opacity: 0.4;
+      margin: 0 auto;
+    }
+
+    /* ── TOURNAMENT RECORD ── */
+    .tournament-section {
+      background: var(--color-black-mid);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-red-border);
+      border-bottom: 1px solid var(--color-red-border);
+    }
+
+    .tournament-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .tournament-header {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .tournament-title {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      line-height: 1;
+    }
+
+    .tournament-sub {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-muted);
+    }
+
+    /* 映画的数字 */
+    .tournament-lead {
+      margin-bottom: 48px;
+    }
+
+    .tournament-lead-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      margin-bottom: 16px;
+    }
+
+    .tournament-lead-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+      max-width: 640px;
+    }
+
+    /* 縦一覧 */
+    .tournament-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .tournament-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 100px;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--color-border);
+      transition: background var(--transition-fast),
+                  padding-left var(--transition-base);
+    }
+
+    .tournament-row:hover {
+      background: var(--color-black-raise);
+      padding-left: 16px;
+    }
+
+    /* コミュステ杯 vol.1 特別扱い */
+    .tournament-row-featured {
+      background: var(--color-red-glow-soft);
+      border-left: var(--border-left-accent);
+      padding-left: 20px;
+    }
+
+    .tournament-row-featured:hover {
+      padding-left: 28px;
+    }
+
+    .tournament-date {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: var(--color-text-muted);
+    }
+
+    .tournament-name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--text-body-l);
+      color: #FFFFFF;
+    }
+
+    /* ── PILLARS ── */
+    .pillars-section {
+      background: var(--color-black);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .pillars-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .pillars-title {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: var(--color-red);
+      line-height: 1;
+      margin-bottom: 64px;
+    }
+
+    .pillar-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 48px;
+      padding: 64px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pillar-item:last-child {
+      border-bottom: none;
+    }
+
+    /* 左余白をずらす（AIっぽさ排除） */
+    .pillar-item-01 { margin-left: 0; }
+    .pillar-item-02 { margin-left: 20px; }
+    .pillar-item-03 { margin-left: 40px; }
+
+    .pillar-number {
+      font-family: var(--font-impact);
+      font-size: var(--text-stat);
+      color: var(--color-red);
+      opacity: 0.4;
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 100px;
+    }
+
+    .pillar-content {}
+
+    .pillar-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .pillar-en {
+      margin-top: 6px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.3em;
+      color: var(--color-text-muted);
+    }
+
+    .pillar-body {
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+      max-width: 600px;
+    }
+
+    /* ── AMBASSADOR CTA ── */
+    .ambassador-cta-section {
+      background: var(--color-black-soft);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 2px solid var(--color-red);
+    }
+
+    .ambassador-cta-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .ambassador-cta-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+    }
+
+    .ambassador-cta-body {
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      line-height: var(--leading-normal);
+    }
+
+    /* ── GAMES セクション ── */
+    .games-section {
+      background: var(--color-black-soft);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .games-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .games-title {
+      font-family: var(--font-display);
+      font-size: var(--text-display-m);
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .games-sub {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-muted);
+      margin-bottom: 40px;
+    }
+
+    .games-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .game-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .game-row:last-child {
+      border-bottom: none;
+    }
+
+    .game-name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--text-body-l);
+      color: #FFFFFF;
+      flex: 1;
+    }
+
+    .game-desc {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      flex: 2;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1199px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .about-right {
+        min-height: 240px;
+      }
+
+      .about-diagonal {
+        display: none;
+      }
+
+      .ambassador-cta-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .about-left {
+        padding: var(--section-pad-y) clamp(20px, 5vw, 40px);
+      }
+
+      .tournament-row {
+        grid-template-columns: 100px 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .tournament-date {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .tournament-name {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        margin-top: 4px;
+      }
+
+      .tournament-badge-col {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .pillar-number {
+        display: none;
+      }
+
+      .pillar-item {
+        gap: 24px;
+        padding: 40px 0;
+      }
+
+      .pillar-item-01,
+      .pillar-item-02,
+      .pillar-item-03 {
+        margin-left: 0;
+      }
+
+      .game-desc {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ノイズキャンバス -->
+<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
+<div class="scanlines"></div>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">HOME</a></li>
+    <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+    <li><a href="community.html" class="nav-link active">COMMUNITY</a></li>
+    <li><a href="results.html" class="nav-link">RESULTS</a></li>
+  </ul>
+  <a href="community.html" class="btn-primary nav-cta">コミュステに参加する</a>
+  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
+  <a href="index.html">HOME</a>
+  <a href="members.html">MEMBERS</a>
+  <a href="community.html">COMMUNITY</a>
+  <a href="results.html">RESULTS</a>
+  <a href="ambassador.html">AMBASSADOR</a>
+  <a href="community.html" class="btn-primary">コミュステに参加する</a>
+</div>
+
+<!-- HERO -->
+<section class="community-hero" aria-labelledby="community-hero-heading">
+  <div class="hero-inner">
+    <p class="hero-sublabel">COMUST</p>
+    <h1 class="hero-main-en glitch-once" id="community-hero-heading">YOUR STAGE.</h1>
+    <p class="hero-main-en-sub">EVERY PLAYER DESERVES A STAGE.</p>
+    <p class="hero-main-ja">舞台は、ここにある。</p>
+    <p class="hero-subcopy">全ゲームジャンル対応。初心者からガチ勢まで。</p>
+    <div class="hero-cta">
+      <a href="#discord" class="btn-primary">Discordに参加する</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT COMUST -->
+<section class="about-section" aria-labelledby="about-heading">
+  <div class="about-grid">
+    <div class="about-left">
+      <p class="about-label fade-up">ABOUT COMUST</p>
+      <h2 class="about-heading fade-up delay-1" id="about-heading">すべてのプレイヤーに、<br>舞台を提供する。</h2>
+      <div class="about-body fade-up delay-2">
+        <p>
+          コミュステは、すべてのプレイヤーに舞台を提供するDiscordコミュニティだ。<br>
+          APEX、Street Fighter 6、VALORANT、Slay the Spire 2。ジャンルをまたいで、初心者からガチ勢まで全員が対象だ。
+        </p>
+        <p style="margin-top: 16px;">
+          スキルは入場条件じゃない。「本気でゲームをやりたい」。それだけで来い。
+        </p>
+      </div>
+      <div class="about-platforms fade-up delay-3">
+        <span class="platform-badge-discord">Discord</span>
+        <span class="platform-badge-x">X (Twitter)</span>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-diagonal"></div>
+      <div class="about-right-inner">
+        <div class="about-vert-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="energy-line">
+
+<!-- TOURNAMENT RECORD -->
+<section class="tournament-section" aria-labelledby="tournament-heading">
+  <div class="tournament-inner">
+    <div class="tournament-header fade-up">
+      <h2 class="tournament-title" id="tournament-heading">TOURNAMENT RECORD</h2>
+      <span class="tournament-sub">戦いの記録</span>
+    </div>
+
+    <div class="tournament-lead fade-up delay-1">
+      <h3 class="tournament-lead-heading">8回、止まらなかった。</h3>
+      <p class="tournament-lead-body">
+        2025年8月に最初の大会を開いた。以来、一度も止まっていない。<br>
+        APEX、Street Fighter 6、VALORANT、Slay the Spire 2。ジャンルを広げながら、舞台を積み上げてきた。<br>
+        これは記録じゃない。俺たちが本気だった証拠だ。
+      </p>
+    </div>
+
+    <div class="tournament-list fade-up delay-2">
+      <!-- 最新・特別扱い -->
+      <div class="tournament-row tournament-row-featured">
+        <span class="tournament-date">2026.05.23</span>
+        <span class="tournament-name">コミュステ杯 vol.1</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-slayspire">Slay the Spire 2</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2026.04.18</span>
+        <span class="tournament-name">集え！若き戦士杯</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-sf6">SF6</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2026.04.05</span>
+        <span class="tournament-name">RISE CUP</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-sf6">SF6</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2026.03.29</span>
+        <span class="tournament-name">RISE CUP</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-valorant">VALORANT</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2026.01.17</span>
+        <span class="tournament-name">RISE CUP</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-sf6">SF6</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2025.11.22</span>
+        <span class="tournament-name">Rise CUP #3</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-apex">APEX</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2025.09.22</span>
+        <span class="tournament-name">Rise CUP #2</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-apex">APEX</span></span>
+      </div>
+      <div class="tournament-row">
+        <span class="tournament-date">2025.08.15</span>
+        <span class="tournament-name">Rise CUP</span>
+        <span class="tournament-badge-col"><span class="badge-game badge-apex">APEX</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="energy-line">
+
+<!-- 3つの柱 -->
+<section class="pillars-section" aria-labelledby="pillars-heading">
+  <div class="pillars-inner">
+    <h2 class="pillars-title fade-up" id="pillars-heading">PILLARS</h2>
+
+    <!-- 柱1 -->
+    <div class="pillar-item pillar-item-01 fade-up">
+      <span class="pillar-number">01</span>
+      <div class="pillar-content">
+        <h3 class="pillar-heading">舞台を作り続ける。</h3>
+        <p class="pillar-en">TOURNAMENT</p>
+        <p class="pillar-body">
+          大会は、プレイヤーに主人公になる機会を渡す行為だ。<br>
+          テンプレートを整備し、継続開催の仕組みを作った。<br>
+          一回きりで終わらない。それが俺たちの約束だ。
+        </p>
+      </div>
+    </div>
+
+    <!-- 柱2 -->
+    <div class="pillar-item pillar-item-02 fade-up">
+      <span class="pillar-number">02</span>
+      <div class="pillar-content">
+        <h3 class="pillar-heading">コミュニティの顔に、なれ。</h3>
+        <p class="pillar-en">AMBASSADOR</p>
+        <p class="pillar-body">
+          アンバサダーは、担当ゲームの場を作る人間だ。<br>
+          新しいメンバーを迎え入れ、参加者同士をつなぎ、コミュニティに温度を作る。<br>
+          「管理」じゃない。「場作り」だ。
+        </p>
+      </div>
+    </div>
+
+    <!-- 柱3 -->
+    <div class="pillar-item pillar-item-03 fade-up">
+      <span class="pillar-number">03</span>
+      <div class="pillar-content">
+        <h3 class="pillar-heading">フォロワーは関係ない。本気があるかだ。</h3>
+        <p class="pillar-en">REGAL RISE / STREAMING DIVISION</p>
+        <p class="pillar-body">
+          Regal Rise 配信者部門は、発信力をゼロから育てる場所だ。<br>
+          フォロワー数は見ない。チャンネル登録数も見ない。<br>
+          本気でゲームを発信したいなら、ここで始めろ。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="energy-line">
+
+<!-- 対応ゲーム -->
+<section class="games-section" aria-labelledby="games-heading">
+  <div class="games-inner">
+    <h2 class="games-title fade-up" id="games-heading">GAMES</h2>
+    <p class="games-sub fade-up delay-1">対応ジャンル</p>
+    <div class="games-list fade-up delay-2">
+      <div class="game-row">
+        <span class="badge-game badge-apex">APEX</span>
+        <span class="game-name">Apex Legends</span>
+        <span class="game-desc">バトルロイヤル。大会3回開催実績。コミュニティ最多参加ジャンル。</span>
+      </div>
+      <div class="game-row">
+        <span class="badge-game badge-sf6">SF6</span>
+        <span class="game-name">Street Fighter 6</span>
+        <span class="game-desc">格闘ゲーム。大会3回開催。実力を問わず対戦を楽しめる環境を用意。</span>
+      </div>
+      <div class="game-row">
+        <span class="badge-game badge-valorant">VALORANT</span>
+        <span class="game-name">VALORANT</span>
+        <span class="game-desc">タクティカルシューター。大会1回開催。チーム戦の緊張感を全員で。</span>
+      </div>
+      <div class="game-row">
+        <span class="badge-game badge-slayspire">Slay the Spire 2</span>
+        <span class="game-name">Slay the Spire 2</span>
+        <span class="game-desc">ローグライクデッキ構築。コミュステ杯 vol.1 として初開催。参加者88名を記録。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMBASSADOR CTA -->
+<section class="ambassador-cta-section" aria-labelledby="ambassador-cta-heading">
+  <div class="ambassador-cta-inner">
+    <div>
+      <h2 class="ambassador-cta-heading fade-up" id="ambassador-cta-heading">コミュニティの顔に、なりたいか。</h2>
+      <p class="ambassador-cta-body fade-up delay-1">
+        アンバサダーは、スキルで選ばない。<br>
+        「この場所を、もっとよくしたい」という熱量で選ぶ。<br>
+        その気持ちがあるなら、まず来い。
+      </p>
+    </div>
+    <div class="fade-up delay-2">
+      <a href="ambassador.html" class="btn-primary">アンバサダーに応募する →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise">
+        <p class="footer-tagline">人生はゲーム、主人公になれ。</p>
+        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-nav-label">LINKS</p>
+        <a href="index.html">HOME</a>
+        <a href="community.html">COMMUNITY</a>
+        <a href="members.html">MEMBERS</a>
+        <a href="results.html">RESULTS</a>
+        <a href="ambassador.html">AMBASSADOR</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/noise.js"></script>
+<script src="assets/js/scroll-anim.js"></script>
+<script>
+  // ハンバーガーメニュー
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
+</body>
+</html>

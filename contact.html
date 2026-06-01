@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONTACT — RegalRise</title>
+  <meta name="description" content="RegalRiseへのお問い合わせ。スポンサー相談・メディア取材・その他のご連絡はこちらから。">
+  <link rel="icon" type="image/png" href="assets/logo/favicon.png">
+  <link rel="apple-touch-icon" href="assets/logo/regalrise_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <style>
+    /* ────────────────────────────────────────────
+       HERO（グラデーションのみ）
+    ──────────────────────────────────────────── */
+    .contact-hero {
+      position: relative;
+      height: 60vh;
+      min-height: 420px;
+      background:
+        radial-gradient(ellipse 70% 60% at 30% 50%, rgba(255,30,30,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(255,30,30,0.08) 0%, transparent 60%),
+        #0A0A0A;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-hero-inner {
+      position: relative;
+      z-index: 10;
+      padding: 0 clamp(20px, 8vw, 120px);
+    }
+
+    .contact-hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+    }
+
+    .contact-hero-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-display-l);
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: 0.03em;
+    }
+
+    .contact-hero-heading span {
+      color: var(--color-red);
+      text-shadow: var(--shadow-text-glow);
+    }
+
+    .contact-hero-sub {
+      margin-top: 24px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-body-l);
+      color: var(--color-text-secondary);
+      max-width: 480px;
+      line-height: var(--leading-normal);
+    }
+
+    /* 右側の縦ライン装飾 */
+    .contact-hero-vert {
+      position: absolute;
+      right: clamp(20px, 10vw, 160px);
+      top: 20%;
+      width: 2px;
+      height: 60%;
+      background: linear-gradient(to bottom, transparent, rgba(255,30,30,0.4) 30%, rgba(255,30,30,0.4) 70%, transparent);
+      box-shadow: 0 0 20px rgba(255,30,30,0.3);
+    }
+
+    /* ────────────────────────────────────────────
+       INQUIRY TYPES（お問い合わせ種別）
+    ──────────────────────────────────────────── */
+    .inquiry-types {
+      background: var(--color-black-mid);
+      border-top: 1px solid var(--color-red-border);
+      border-bottom: 1px solid var(--color-border);
+      padding: 56px clamp(20px, 6vw, 80px);
+    }
+
+    .inquiry-types-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .inquiry-types-label {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .inquiry-type-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .inquiry-type-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 16px;
+      border-bottom: 1px solid var(--color-border);
+      text-decoration: none;
+      transition: background var(--transition-fast), padding-left var(--transition-base);
+      border-radius: var(--radius-card);
+      gap: 24px;
+    }
+
+    .inquiry-type-item:last-child { border-bottom: none; }
+
+    .inquiry-type-item:hover {
+      background: var(--color-black-raise);
+      padding-left: 28px;
+    }
+
+    .inquiry-type-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .inquiry-type-num {
+      font-family: var(--font-impact);
+      font-size: 28px;
+      color: rgba(255,30,30,0.20);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 32px;
+    }
+
+    .inquiry-type-name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--text-body-l);
+      color: #FFFFFF;
+    }
+
+    .inquiry-type-note {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .inquiry-type-arrow {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+      transition: color var(--transition-fast);
+    }
+
+    .inquiry-type-item:hover .inquiry-type-arrow {
+      color: var(--color-red);
+    }
+
+    /* ────────────────────────────────────────────
+       FORM SECTION
+    ──────────────────────────────────────────── */
+    .form-section {
+      background: var(--color-black);
+      padding: var(--section-pad-y) clamp(20px, 6vw, 80px);
+    }
+
+    .form-section-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .form-col {}
+
+    .form-label-tag {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-red);
+      margin-bottom: 12px;
+    }
+
+    .form-heading {
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: var(--text-h2);
+      color: #FFFFFF;
+      line-height: var(--leading-snug);
+      margin-bottom: 40px;
+    }
+
+    /* フォームカード */
+    .contact-form {
+      background: var(--color-black-soft);
+      border: var(--border-card-red);
+      border-radius: var(--radius-card);
+      padding: 48px;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    .form-group:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      color: var(--color-red);
+      margin-bottom: 10px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--color-black-raise);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-card);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 15px;
+      padding: 14px 16px;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.20);
+    }
+
+    .form-group select {
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='rgba(255,255,255,0.3)' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .form-group select option {
+      background: var(--color-black-raise);
+      color: #FFFFFF;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--color-red);
+      box-shadow: 0 0 0 2px rgba(255,30,30,0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-submit-row {
+      margin-top: 36px;
+    }
+
+    .form-submit-note {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .form-btn-submit {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--color-red);
+      color: #FFFFFF;
+      border: none;
+      padding: 18px 32px;
+      font-family: var(--font-body);
+      font-weight: 900;
+      font-size: 16px;
+      border-radius: var(--radius-btn);
+      box-shadow: var(--shadow-btn-red);
+      cursor: pointer;
+      transition: var(--transition-slow);
+    }
+
+    .form-btn-submit:hover {
+      background: var(--color-red-dim);
+      box-shadow: 0 0 32px rgba(255,30,30,0.45);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────
+       CONTACT INFO（右カラム）
+    ──────────────────────────────────────────── */
+    .contact-info-col {}
+
+    .contact-info-heading {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      margin-top: 90px;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-info-item {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .contact-info-item:last-child { border-bottom: none; }
+
+    .contact-info-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .contact-info-value {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 15px;
+      color: #FFFFFF;
+    }
+
+    .contact-info-value a {
+      color: var(--color-red);
+      text-decoration: none;
+      transition: opacity var(--transition-fast);
+    }
+
+    .contact-info-value a:hover { opacity: 0.75; }
+
+    /* ────────────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────────────── */
+    @media (max-width: 1199px) {
+      .form-section-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .contact-info-heading { margin-top: 0; }
+    }
+
+    @media (max-width: 767px) {
+      .contact-form {
+        padding: 28px 20px;
+      }
+
+      .inquiry-type-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ノイズキャンバス -->
+<canvas id="noise-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.025;"></canvas>
+<div class="scanlines"></div>
+
+<!-- ナビゲーション -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo/regalrise_logo.png" alt="RegalRise" style="filter:invert(1);">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-link">HOME</a></li>
+    <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+    <li><a href="games.html" class="nav-link">GAMES</a></li>
+    <li><a href="results.html" class="nav-link">RESULTS</a></li>
+    <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
+    <li><a href="community.html" class="nav-link">COMMUNITY</a></li>
+    <li><a href="contact.html" class="nav-link active">CONTACT</a></li>
+  </ul>
+  <a href="#contact-form" class="btn-primary nav-cta">お問い合わせ</a>
+  <button class="nav-hamburger" aria-label="メニューを開く" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルメニュー -->
+<div class="nav-mobile-menu" role="navigation" aria-label="モバイルナビゲーション">
+  <a href="index.html">HOME</a>
+  <a href="members.html">MEMBERS</a>
+  <a href="games.html">GAMES</a>
+  <a href="results.html">RESULTS</a>
+  <a href="recruit.html">RECRUIT</a>
+  <a href="community.html">COMMUNITY</a>
+  <a href="contact.html">CONTACT</a>
+  <a href="#contact-form" class="btn-primary">お問い合わせ</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  HERO
+═══════════════════════════════════════════ -->
+<section class="contact-hero">
+  <div class="contact-hero-vert" aria-hidden="true"></div>
+  <div class="contact-hero-inner">
+    <p class="contact-hero-eyebrow fade-up">REGALRISE — CONTACT</p>
+    <h1 class="contact-hero-heading fade-up delay-1">
+      話を、<span>しよう。</span>
+    </h1>
+    <p class="contact-hero-sub fade-up delay-2">
+      スポンサー相談・メディア取材・その他のご連絡。<br>
+      まずは、話を聞かせてほしい。
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+  INQUIRY TYPES
+═══════════════════════════════════════════ -->
+<div class="inquiry-types">
+  <div class="inquiry-types-inner">
+    <p class="inquiry-types-label fade-up">お問い合わせ種別</p>
+    <div class="inquiry-type-list">
+
+      <a href="recruit.html" class="inquiry-type-item fade-up">
+        <div class="inquiry-type-left">
+          <span class="inquiry-type-num">01</span>
+          <div>
+            <p class="inquiry-type-name">選手・ストリーマー応募</p>
+            <p class="inquiry-type-note">PLAYER PATH / STREAMER PATH への参加</p>
+          </div>
+        </div>
+        <span class="inquiry-type-arrow">recruit.html →</span>
+      </a>
+
+      <div class="inquiry-type-item fade-up delay-1" style="cursor:default;">
+        <div class="inquiry-type-left">
+          <span class="inquiry-type-num">02</span>
+          <div>
+            <p class="inquiry-type-name">スポンサー相談</p>
+            <p class="inquiry-type-note">スポンサーシップ・協賛に関するご相談</p>
+          </div>
+        </div>
+        <span class="inquiry-type-arrow">↓ 下記フォームへ</span>
+      </div>
+
+      <div class="inquiry-type-item fade-up delay-1" style="cursor:default;">
+        <div class="inquiry-type-left">
+          <span class="inquiry-type-num">03</span>
+          <div>
+            <p class="inquiry-type-name">メディア・取材</p>
+            <p class="inquiry-type-note">取材・掲載・インタビューに関するご依頼</p>
+          </div>
+        </div>
+        <span class="inquiry-type-arrow">↓ 下記フォームへ</span>
+      </div>
+
+      <div class="inquiry-type-item fade-up delay-2" style="cursor:default;">
+        <div class="inquiry-type-left">
+          <span class="inquiry-type-num">04</span>
+          <div>
+            <p class="inquiry-type-name">その他</p>
+            <p class="inquiry-type-note">上記以外のご連絡</p>
+          </div>
+        </div>
+        <span class="inquiry-type-arrow">↓ 下記フォームへ</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  FORM + INFO
+═══════════════════════════════════════════ -->
+<section class="form-section" id="contact-form" aria-labelledby="form-heading">
+  <div class="form-section-inner">
+
+    <!-- フォーム -->
+    <div class="form-col">
+      <p class="form-label-tag fade-up">CONTACT FORM</p>
+      <h2 class="form-heading fade-up delay-1" id="form-heading">
+        お問い合わせ
+      </h2>
+
+      <form class="contact-form fade-up delay-2" novalidate>
+        <div class="form-group">
+          <label for="contact-name">お名前</label>
+          <input type="text" id="contact-name" name="name" placeholder="山田 太郎" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email">メールアドレス</label>
+          <input type="email" id="contact-email" name="email" placeholder="info@example.com" autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-type">お問い合わせ種別</label>
+          <select id="contact-type" name="type">
+            <option value="" disabled selected>種別を選択してください</option>
+            <option value="sponsor">スポンサー相談</option>
+            <option value="media">メディア・取材</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="contact-message">内容</label>
+          <textarea id="contact-message" name="message" rows="5" placeholder="お問い合わせ内容をご記入ください"></textarea>
+        </div>
+
+        <div class="form-submit-row">
+          <p class="form-submit-note">送信後、2営業日以内にご返信いたします。</p>
+          <button type="submit" class="form-btn-submit">送信する</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- コンタクト情報 -->
+    <div class="contact-info-col fade-up delay-2">
+      <p class="contact-info-heading">CONTACT INFO</p>
+      <div class="contact-info-list">
+        <div class="contact-info-item">
+          <p class="contact-info-label">EMAIL</p>
+          <p class="contact-info-value">
+            <a href="mailto:info@regalcast.co.jp">info@regalcast.co.jp</a>
+          </p>
+        </div>
+        <div class="contact-info-item">
+          <p class="contact-info-label">X (TWITTER)</p>
+          <p class="contact-info-value">
+            <a href="#">@RegalRise</a>
+          </p>
+        </div>
+        <div class="contact-info-item">
+          <p class="contact-info-label">YOUTUBE</p>
+          <p class="contact-info-value">
+            <a href="#">@znekoma</a>
+          </p>
+        </div>
+        <div class="contact-info-item">
+          <p class="contact-info-label">LOCATION</p>
+          <p class="contact-info-value">大阪府（詳細は非公開）</p>
+        </div>
+        <div class="contact-info-item">
+          <p class="contact-info-label">COMPANY</p>
+          <p class="contact-info-value">株式会社RegalCast</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/regalrise_logo.png" class="footer-logo" alt="RegalRise" style="filter:invert(1);">
+        <p class="footer-tagline">眠れる才能を、主人公へ。</p>
+        <p class="footer-desc">RegalRise は、才能を埋もれさせない。<br>株式会社RegalCast（大阪）が運営するeスポーツ部門。</p>
+      </div>
+      <div class="footer-links">
+        <p class="footer-nav-label">LINKS</p>
+        <a href="index.html">HOME</a>
+        <a href="members.html">MEMBERS</a>
+        <a href="games.html">GAMES</a>
+        <a href="results.html">RESULTS</a>
+        <a href="recruit.html">RECRUIT</a>
+        <a href="community.html">COMMUNITY</a>
+        <a href="contact.html">CONTACT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 RegalCast, Inc. All rights reserved.</span>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/noise.js"></script>
+<script src="assets/js/scroll-anim.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    if (window.noiseBurst) window.noiseBurst(500);
+  });
+
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  }
+
+  // フォーム送信（モック）
+  const form = document.querySelector('.contact-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const btn = form.querySelector('.form-btn-submit');
+      btn.textContent = '送信完了。ありがとうございました。';
+      btn.style.background = '#333';
+      btn.style.boxShadow = 'none';
+      btn.disabled = true;
+    });
+  }
+</script>
+</body>
+</html>
