@@ -363,22 +363,35 @@
     ──────────────────────────────────────────── */
     @media (max-width: 767px) {
       .roster-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
       }
 
+      /* ねこまを全幅1行目に */
       .roster-card-featured {
-        grid-column: 1;
-        grid-row: auto;
+        grid-column: 1 / span 2;
+        grid-row: 1;
       }
 
       .roster-card-featured .roster-card-bg {
-        min-height: 400px;
+        min-height: 280px;
+      }
+
+      /* 小カードをリセットして2列に均等配置 */
+      .roster-card-sm {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        aspect-ratio: 1/1;
+        min-height: 160px;
       }
 
       .roster-card-recruit {
-        aspect-ratio: auto;
-        min-height: 180px;
+        aspect-ratio: 1/1;
+        min-height: 160px;
+      }
+
+      .roster-card-sm .roster-card-name {
+        font-size: clamp(16px, 5vw, 28px);
       }
     }
   </style>
