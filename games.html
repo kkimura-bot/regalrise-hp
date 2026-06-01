@@ -45,6 +45,7 @@
     }
 
     .games-hero-heading {
+      word-break: keep-all;
       font-family: var(--font-body);
       font-weight: 900;
       font-size: var(--text-display-l);
@@ -323,6 +324,8 @@
       .game-section.reverse .game-img-col::before {
         background: linear-gradient(to top, var(--color-black) 0%, transparent 40%);
       }
+    
+      .games-hero-heading { font-size: clamp(28px, 8vw, 120px); }
     }
   </style>
 </head>
